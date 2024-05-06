@@ -1,0 +1,34 @@
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #7ab4f1; /* Blue color */
+  padding: 10px; /* Add some padding */
+  border-bottom: 2px solid #62a7f2; /* Darker blue border */
+  position: fixed; /* Fix the navbar to the top of the viewport */
+  width: 100%; /* Make the navbar span the entire width */
+  top: 0; /* Align the navbar to the top of the viewport */
+  left: 0; /* Align the navbar to the left of the viewport */
+  z-index: 1000;
+}
+
+.logo img {
+  width: 50px;
+  height: auto;
+}
+
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  margin-right: 300px;
+}
+
+.nav-links li {
+  display: inline-block;
+  margin-left: 100px;
+}
+
+.nav-links li:first-child {
+  margin-left: 0;
+}
