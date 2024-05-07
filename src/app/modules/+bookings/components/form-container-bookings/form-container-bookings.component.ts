@@ -55,7 +55,19 @@ export class FormContainerBookingsComponent implements OnInit {
     const url = `http://localhost:8080/classes/available-time-slots/${day}`;
     this.httpClient.get(url)
       .subscribe((data: any) => {
-        this.timeSlots = data;
+        this.timeSlots = data.map((timeSlot: string) => {
+          const startTime = timeSlot.trim();
+          const endTime = this.calculateEndTime(startTime); // Calculate the end time
+          return `${startTime} - ${endTime}`;
+        });
       });
+  }
+
+  calculateEndTime(startTime: string): string {
+    // Parse the start time and add one hour
+    const [hours, minutes] = startTime.split(':').map(Number);
+    const start = new Date(0, 0, 0, hours, minutes);
+    const end = new Date(start.getTime() + 60 * 60 * 1000); // Add one hour
+    return `${end.getHours()}:${end.getMinutes().toString().padStart(2, '0')}`;
   }
 }

@@ -19,10 +19,10 @@
     </select>
 
     <label for="timeSlot">Select Time Slot:</label>
-    <select id="timeSlot" name="timeSlot" required>
-      <option value="">Select a time slot</option>
-      <option *ngFor="let timeSlot of timeSlots" [value]="timeSlot">{{ timeSlot }}</option>
-    </select>
+<select id="timeSlot" name="timeSlot" required>
+  <option value="">Select a time slot</option>
+  <option *ngFor="let timeSlot of timeSlots" [value]="timeSlot">{{ timeSlot }}</option>
+</select>
 
     <button type="submit">Submit</button>
   </form>
