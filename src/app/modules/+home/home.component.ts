@@ -9,4 +9,8 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  bikeUrl: string = 'assets/homepage/bike.jpg'
+  carUrl: string = 'assets/homepage/car.jpg'
+  truckUrl: string = 'assets/homepage/truck.jpg'
+
 }
