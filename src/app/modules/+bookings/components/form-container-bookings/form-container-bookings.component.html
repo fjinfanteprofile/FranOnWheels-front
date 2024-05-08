@@ -1,5 +1,5 @@
 <div class="form-container">
-  <form>
+  <form (submit)="onSubmit($event)">
     <label for="license">Select License:</label>
     <select id="license" name="license" (change)="onLicenseSelect($event)" required>
       <option value="">Select a vehicle type</option>
@@ -7,23 +7,21 @@
     </select>
 
     <label for="vehicle">Select Vehicle:</label>
-    <select id="vehicle" name="vehicle" required>
+    <select id="vehicle" name="vehicle" (change)="onVehicleSelect($event)" required>
       <option value="">Select a vehicle</option>
       <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{ vehicle.model }}</option>
     </select>
 
-    <label for="day">Select Day:</label>
-    <select id="day" name="day" (change)="onDaySelect($event)"required>
-      <option value="">Select a day</option>
-      <option *ngFor="let day of days" [value]="day">{{ day }}</option>
-    </select>
+    <label for="selectedDate">Select Date:</label>
+    <input type="date" id="selectedDate" name="selectedDate" (change)="onDateSelect($event)" required>
 
     <label for="timeSlot">Select Time Slot:</label>
-<select id="timeSlot" name="timeSlot" required>
+<select id="timeSlot" name="timeSlot" (change)="onTimeSlotSelect($event)" required>
   <option value="">Select a time slot</option>
   <option *ngFor="let timeSlot of timeSlots" [value]="timeSlot">{{ timeSlot }}</option>
 </select>
 
     <button type="submit">Submit</button>
   </form>
+
 </div>

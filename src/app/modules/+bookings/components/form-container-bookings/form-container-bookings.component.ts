@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-container-bookings',
@@ -10,18 +11,38 @@ import { Component, OnInit, inject } from '@angular/core';
   styleUrl: './form-container-bookings.component.css'
 })
 export class FormContainerBookingsComponent implements OnInit {
+
   vehicleTypes: any[] = [];
   selectedLicense: string | null = null;
   vehicles: any[] = [];
-  days: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   timeSlots: string[] = [];
+  selectedVehicleId: number | null = null;
+  selectedDate: string | null = null;
+  selectedTimeSlot: string | null = null;
+  successMessage: string | null = null;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     this.fetchVehicleTypes();
   }
 
+  onTimeSlotSelect(event: any){
+    this.selectedTimeSlot = event.target.value;
+  }
+  onVehicleSelect(event: any) {
+    this.selectedVehicleId = event.target.value;
+  }
+  onLicenseSelect(event: any) {
+    this.selectedLicense = event.target.value;
+    this.fetchVehiclesByType();
+  }
+  onDateSelect(event: any) {
+    console.log('Event:', event);
+    this.selectedDate = event.target.value as string;
+    console.log('Selected Date:', this.selectedDate);
+    this.fetchAvailableTimeSlotsForDate(this.selectedDate);
+  }
   fetchVehicleTypes() {
     this.httpClient.get('http://localhost:8080/vehicle-types/active')
       .subscribe((data: any) => {
@@ -40,19 +61,16 @@ export class FormContainerBookingsComponent implements OnInit {
         });
     }
   }
-
-  onLicenseSelect(event: any) {
-    this.selectedLicense = event.target.value;
-    this.fetchVehiclesByType();
+  calculateEndTime(startTime: string): string {
+    // Parse the start time and add one hour
+    const [hours, minutes] = startTime.split(':').map(Number);
+    const start = new Date(0, 0, 0, hours, minutes);
+    const end = new Date(start.getTime() + 60 * 60 * 1000); // Add one hour
+    return `${end.getHours()}:${end.getMinutes().toString().padStart(2, '0')}`;
   }
-
-  onDaySelect(event: any) {
-    const selectedDay = event.target.value;
-    this.fetchAvailableTimeSlots(selectedDay);
-  }
-
-  fetchAvailableTimeSlots(day: string) {
-    const url = `http://localhost:8080/classes/available-time-slots/${day}`;
+  fetchAvailableTimeSlotsForDate(date: string) {
+    // Fetch available time slots for the selected date
+    const url = `http://localhost:8080/classes/available-time-slots/${date}`;
     this.httpClient.get(url)
       .subscribe((data: any) => {
         this.timeSlots = data.map((timeSlot: string) => {
@@ -63,11 +81,52 @@ export class FormContainerBookingsComponent implements OnInit {
       });
   }
 
-  calculateEndTime(startTime: string): string {
-    // Parse the start time and add one hour
-    const [hours, minutes] = startTime.split(':').map(Number);
-    const start = new Date(0, 0, 0, hours, minutes);
-    const end = new Date(start.getTime() + 60 * 60 * 1000); // Add one hour
-    return `${end.getHours()}:${end.getMinutes().toString().padStart(2, '0')}`;
+  onSubmit(event: Event): void {
+
+    console.log('Selected License:', this.selectedLicense); // Add this line
+    console.log('Selected Vehicle Id:', this.selectedVehicleId); // Add this line
+    console.log('Selected Date:', this.selectedDate); // Add this line
+    console.log('Selected Time Slot:', this.selectedTimeSlot); // Add this line
+
+    if (this.selectedLicense && this.selectedVehicleId && this.selectedDate && this.selectedTimeSlot) {
+      // Create class
+      const classData = {
+        vehicleId: this.selectedVehicleId,
+        date: this.selectedDate,
+        timeStart: this.selectedTimeSlot.split(' - ')[0],
+        timeEnd: this.selectedTimeSlot.split(' - ')[1],
+        active: 1
+      };
+      this.successMessage = 'Class has been created successfully';
+
+      this.httpClient.post('http://localhost:8080/classes/1', classData)
+        .subscribe((classResponse: any) => {
+          // Create booking
+          const bookingData = {
+            classId: classResponse.id,
+            userId: 1,
+            active: 1
+          };
+
+          this.httpClient.post('http://localhost:8080/bookings', bookingData)
+            .subscribe(() => {
+              // Handle success
+              console.log('Booking created successfully');
+
+            }, error => {
+              // Handle error
+              console.error('Error creating booking:', error);
+            });
+        }, error => {
+          // Handle error
+          console.error('Error creating class:', error);
+        });
+    } else {
+      console.error('Please select all required fields');
+    }
+    this.router.navigate(['/success']);
+
   }
+
+
 }
