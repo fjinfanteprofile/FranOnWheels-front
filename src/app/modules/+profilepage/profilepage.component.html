@@ -1,0 +1,12 @@
+<div class="profile-container" *ngIf="currentUser">
+  <h2>Welcome to Your Profile</h2>
+  <div class="user-info">
+    <p><strong>Name:</strong> {{ currentUser.name }}</p>
+    <p><strong>Last Name:</strong> {{ currentUser.lastName }}</p>
+    <p><strong>DNI:</strong> {{ currentUser.dni }}</p>
+    <p><strong>Phone Number:</strong> {{ currentUser.phoneNumber }}</p>
+    <p><strong>Address:</strong> {{ currentUser.address }}</p>
+    <p><strong>Email:</strong> {{ currentUser.email }}</p>
+    <!-- Add more user information here -->
+  </div>
+</div>
