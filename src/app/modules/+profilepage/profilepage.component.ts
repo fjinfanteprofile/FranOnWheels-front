@@ -18,7 +18,6 @@ export class ProfilepageComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    // Retrieve user data from route parameters
     this.user = this.userService.getUser();
 
   }

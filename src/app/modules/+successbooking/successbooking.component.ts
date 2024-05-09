@@ -13,7 +13,6 @@ export class SuccessbookingComponent {
   constructor(private router: Router) {}
 
   goBack(): void {
-    // Navigate back to the previous page
     this.router.navigate(['/bookings']);
   }
 

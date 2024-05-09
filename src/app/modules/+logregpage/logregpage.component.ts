@@ -69,7 +69,6 @@ export class LogregpageComponent {
   onRegisterSubmit(event: Event): void {
     event.preventDefault();
 
-    // Implement registration logic here
     const userData = {
       username: this.username,
       name: this.name,
