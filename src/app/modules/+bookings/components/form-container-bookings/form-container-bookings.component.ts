@@ -3,6 +3,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../../shared/auth/user.service';
+import { VehicleTypeService } from '../../service/vehicle-type.service';
 
 @Component({
   selector: 'app-form-container-bookings',
@@ -24,16 +25,15 @@ export class FormContainerBookingsComponent implements OnInit {
   user: any;
   classes: any[] = [];
 
-  constructor(private httpClient: HttpClient, private router: Router, private userService : UserService) { }
+  constructor(private httpClient: HttpClient, private router: Router, private userService: UserService, private vehicleTypeService: VehicleTypeService) { }
 
   ngOnInit(): void {
     this.fetchVehicleTypes();
-    // Retrieve user data from route parameters
     this.user = this.userService.getUser();
     this.fetchUserClasses();
   }
 
-  onTimeSlotSelect(event: any){
+  onTimeSlotSelect(event: any) {
     this.selectedTimeSlot = event.target.value;
   }
   onVehicleSelect(event: any) {
@@ -49,24 +49,6 @@ export class FormContainerBookingsComponent implements OnInit {
     console.log('Selected Date:', this.selectedDate);
     this.fetchAvailableTimeSlotsForDate(this.selectedDate);
   }
-  fetchVehicleTypes() {
-    this.httpClient.get('http://localhost:8080/vehicle-types/active')
-      .subscribe((data: any) => {
-        console.log(data);
-        this.vehicleTypes = data;
-      });
-  }
-
-  fetchVehiclesByType() {
-    if (this.selectedLicense) {
-      const url = `http://localhost:8080/vehicles/active/${this.selectedLicense}`;
-      this.httpClient.get(url)
-        .subscribe((data: any) => {
-          console.log(data);
-          this.vehicles = data;
-        });
-    }
-  }
   calculateEndTime(startTime: string): string {
     // Parse the start time and add one hour
     const [hours, minutes] = startTime.split(':').map(Number);
@@ -74,29 +56,45 @@ export class FormContainerBookingsComponent implements OnInit {
     const end = new Date(start.getTime() + 60 * 60 * 1000); // Add one hour
     return `${end.getHours()}:${end.getMinutes().toString().padStart(2, '0')}`;
   }
-  fetchAvailableTimeSlotsForDate(date: string) {
-    // Fetch available time slots for the selected date
-    const url = `http://localhost:8080/classes/available-time-slots/${date}`;
-    this.httpClient.get(url)
-      .subscribe((data: any) => {
-        this.timeSlots = data.map((timeSlot: string) => {
-          const startTime = timeSlot.trim();
-          const endTime = this.calculateEndTime(startTime); // Calculate the end time
-          return `${startTime} - ${endTime}`;
-        });
+  fetchVehicleTypes() {
+    this.vehicleTypeService.getVehicleTypes().subscribe((data: any) => {
+      console.log(data);
+      this.vehicleTypes = data;
+    });
+  }
+
+  fetchVehiclesByType() {
+    if (this.selectedLicense) {
+      this.vehicleTypeService.getActiveVehiclesByLicense(this.selectedLicense).subscribe((data: any) => {
+        console.log(data);
+        this.vehicles = data;
       });
+    }
+  }
+
+  fetchAvailableTimeSlotsForDate(date: string) {
+    this.vehicleTypeService.getAvailableTimeSlotsForDate(date).subscribe((data: any) => {
+      this.timeSlots = data.map((timeSlot: string) => {
+        const startTime = timeSlot.trim();
+        const endTime = this.calculateEndTime(startTime);
+        return `${startTime} - ${endTime}`;
+      });
+    });
+  }
+
+  fetchUserClasses() {
+    if (this.user && this.user.id) {
+      this.vehicleTypeService.getUserClasses(this.user.id).subscribe((data: any) => {
+        console.log(data);
+        this.classes = data;
+      }, error => {
+        console.error('Error fetching user classes:', error);
+      });
+    }
   }
 
   onSubmit(event: Event): void {
-
-    console.log(this.user.id)
-    console.log('Selected License:', this.selectedLicense); // Add this line
-    console.log('Selected Vehicle Id:', this.selectedVehicleId); // Add this line
-    console.log('Selected Date:', this.selectedDate); // Add this line
-    console.log('Selected Time Slot:', this.selectedTimeSlot); // Add this line
-
     if (this.selectedLicense && this.selectedVehicleId && this.selectedDate && this.selectedTimeSlot) {
-      // Create class
       const classData = {
         vehicleId: this.selectedVehicleId,
         date: this.selectedDate,
@@ -106,48 +104,25 @@ export class FormContainerBookingsComponent implements OnInit {
       };
       this.successMessage = 'Class has been created successfully';
 
-      this.httpClient.post(`http://localhost:8080/classes/${this.user.id}`, classData)
-        .subscribe((classResponse: any) => {
-          // Create booking
-          const bookingData = {
-            classId: classResponse.id,
-            userId: 1,
-            active: 1
-          };
+      this.vehicleTypeService.createClass(this.user.id, classData).subscribe((classResponse: any) => {
+        const bookingData = {
+          classId: classResponse.id,
+          userId: 1,
+          active: 1
+        };
 
-          this.httpClient.post('http://localhost:8080/bookings', bookingData)
-            .subscribe(() => {
-              // Handle success
-              console.log('Booking created successfully');
-
-            }, error => {
-              // Handle error
-              console.error('Error creating booking:', error);
-            });
+        this.vehicleTypeService.createBooking(bookingData).subscribe(() => {
+          console.log('Booking created successfully');
         }, error => {
-          // Handle error
-          console.error('Error creating class:', error);
+          console.error('Error creating booking:', error);
         });
+      }, error => {
+        console.error('Error creating class:', error);
+      });
     } else {
       console.error('Please select all required fields');
     }
     this.router.navigate(['/success']);
-
   }
-
-  fetchUserClasses() {
-    if (this.user && this.user.id) {
-      const userId = this.user.id;
-      const url = `http://localhost:8080/classes/user/${userId}`;
-      this.httpClient.get<any[]>(url)
-        .subscribe((data) => {
-          console.log(data);
-          this.classes = data;
-        }, error => {
-          console.error('Error fetching user classes:', error);
-        });
-    }
-  }
-
 
 }
