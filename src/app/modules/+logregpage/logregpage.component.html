@@ -1,0 +1,33 @@
+<div class="form-container">
+  <div class="login-form-container" *ngIf="showLoginForm">
+    <h2>Login</h2>
+    <form (submit)="onSubmit($event)">
+      <label for="loginEmail">Email:</label>
+      <input type="email" id="loginEmail" name="loginEmail" required [(ngModel)]="email">
+
+      <label for="loginPassword">Password:</label>
+      <input type="password" id="loginPassword" name="loginPassword" required [(ngModel)]="password" >
+
+      <button type="submit">Login</button>
+    </form>
+    <p>{{ loginError }}</p>
+    <p>Don't have an account? <button (click)="toggleForm()">Register here</button></p>
+</div>
+
+  <div class="register-form-container" *ngIf="!showLoginForm">
+    <h2>Register</h2>
+    <form>
+      <label for="registerName">Name:</label>
+      <input type="text" id="registerName" name="registerName" required>
+
+      <label for="registerEmail">Email:</label>
+      <input type="email" id="registerEmail" name="registerEmail" required>
+
+      <label for="registerPassword">Password:</label>
+      <input type="password" id="registerPassword" name="registerPassword" required>
+
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <button (click)="toggleForm()">Login here</button></p>
+  </div>
+</div>
