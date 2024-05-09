@@ -1,20 +1,6 @@
 <div class="testimonials-container">
-
-  <div class="testimonials-item">
-    <img [src]="woman2" alt="Federica Pepa">
-    <p>"I had a wonderful experience learning to drive with FranOnWheels. The instructors were patient and supportive, and they helped me build confidence behind the wheel. I highly recommend them to anyone looking to learn how to drive."</p>
+  <div class="testimonials-item" *ngFor="let testimonial of testimonials">
+    <img [src]="testimonial.img" [alt]="testimonial.name">
+    <p>{{ testimonial.text }}</p>
   </div>
-  <div class="testimonials-item">
-    <img [src]="man1" alt="George Clouney">
-    <p>"I had a wonderful experience learning to drive with FranOnWheels. The instructors were patient and supportive, and they helped me build confidence behind the wheel. I highly recommend them to anyone looking to learn how to drive."</p>
-  </div>
-  <div class="testimonials-item">
-    <img [src]="woman1" alt="Stefany Claer">
-    <p>"I had a wonderful experience learning to drive with FranOnWheels. The instructors were patient and supportive, and they helped me build confidence behind the wheel. I highly recommend them to anyone looking to learn how to drive."</p>
-  </div>
-  <div class="testimonials-item">
-    <img [src]="man2" alt="Manolo Pepe">
-    <p>"I had a wonderful experience learning to drive with FranOnWheels. The instructors were patient and supportive, and they helped me build confidence behind the wheel. I highly recommend them to anyone looking to learn how to drive."</p>
-  </div>
-
 </div>
