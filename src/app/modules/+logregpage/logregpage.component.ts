@@ -1,3 +1,4 @@
+import { UserService } from './../../shared/auth/user.service';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
@@ -17,8 +18,11 @@ export class LogregpageComponent {
   loginError: string | null = null;
   email: string = '';
   password: string = '';
+  userService: UserService;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, userService: UserService) {
+    this.userService = userService; 
+  }
 
   toggleForm() {
     this.showLoginForm = !this.showLoginForm;
@@ -43,8 +47,10 @@ export class LogregpageComponent {
         // Handle successful login
         console.log('Logged in user:', user);
 
+        this.userService.setUser(user);
+
         // Redirect to the profile page with user data as parameter
-        this.router.navigate(['/profile'], { state: { user } });
+        this.router.navigate(['/profile']);
       },
       error => {
         // Handle login error

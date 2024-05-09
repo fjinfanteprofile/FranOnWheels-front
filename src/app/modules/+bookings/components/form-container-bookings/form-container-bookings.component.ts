@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from '../../../../shared/auth/user.service';
 
 @Component({
   selector: 'app-form-container-bookings',
@@ -20,11 +21,14 @@ export class FormContainerBookingsComponent implements OnInit {
   selectedDate: string | null = null;
   selectedTimeSlot: string | null = null;
   successMessage: string | null = null;
+  user: any;
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private httpClient: HttpClient, private router: Router, private userService : UserService) { }
 
   ngOnInit(): void {
     this.fetchVehicleTypes();
+    // Retrieve user data from route parameters
+    this.user = this.userService.getUser();
   }
 
   onTimeSlotSelect(event: any){
@@ -83,6 +87,7 @@ export class FormContainerBookingsComponent implements OnInit {
 
   onSubmit(event: Event): void {
 
+    console.log(this.user.id)
     console.log('Selected License:', this.selectedLicense); // Add this line
     console.log('Selected Vehicle Id:', this.selectedVehicleId); // Add this line
     console.log('Selected Date:', this.selectedDate); // Add this line
@@ -99,7 +104,7 @@ export class FormContainerBookingsComponent implements OnInit {
       };
       this.successMessage = 'Class has been created successfully';
 
-      this.httpClient.post('http://localhost:8080/classes/1', classData)
+      this.httpClient.post(`http://localhost:8080/classes/${this.user.id}`, classData)
         .subscribe((classResponse: any) => {
           // Create booking
           const bookingData = {
