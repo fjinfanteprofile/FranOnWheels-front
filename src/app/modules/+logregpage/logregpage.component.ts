@@ -1,27 +1,27 @@
 import { UserService } from './../../shared/auth/user.service';
-import { CommonModule, NgComponentOutlet } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { LoginService } from './service/login.service'; // Import LoginService
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-logregpage',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,HttpClientModule],
   templateUrl: './logregpage.component.html',
-  styleUrl: './logregpage.component.css'
+  styleUrls: ['./logregpage.component.css']
 })
 export class LogregpageComponent {
   showLoginForm: boolean = true;
   loginError: string | null = null;
   email: string = '';
   password: string = '';
-  userService: UserService;
 
-  constructor(private http: HttpClient, private router: Router, userService: UserService) {
-    this.userService = userService;
+  constructor(private router: Router, private userService: UserService, private loginService: LoginService, private http: HttpClient) {
+    // Provide HttpClientModule here
+    this.http = http;
   }
 
   toggleForm() {
@@ -29,38 +29,28 @@ export class LogregpageComponent {
     this.loginError = null;
   }
 
-
   onSubmit(event: Event): void {
-
-
     event.preventDefault();
     const loginData = {
       email: this.email,
       password: this.password
     };
 
-    console.log(loginData);
-
-    this.http.post<any>('http://localhost:8080/users/login', loginData)
-    .subscribe(
-      user => {
-        // Handle successful login
-        console.log('Logged in user:', user);
-
-        this.userService.setUser(user);
-
-        // Redirect to the home page with user data as parameter
-        this.router.navigate(['/home']);
-      },
-      error => {
-        // Handle login error
-        console.error('Login error:', error);
-        if (error.status === 401) {
-          this.loginError = 'Invalid email or password. Please try again.';
-        } else {
-          this.loginError = 'An error occurred while logging in. Please try again later.';
+    this.loginService.login(this.email, this.password) 
+      .subscribe(
+        user => {
+          console.log('Logged in user:', user);
+          this.userService.setUser(user);
+          this.router.navigate(['/home']);
+        },
+        error => {
+          console.error('Login error:', error);
+          if (error.status === 401) {
+            this.loginError = 'Invalid email or password. Please try again.';
+          } else {
+            this.loginError = 'An error occurred while logging in. Please try again later.';
+          }
         }
-      }
-    );
-}
+      );
+  }
 }
