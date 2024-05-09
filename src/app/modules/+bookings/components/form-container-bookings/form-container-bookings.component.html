@@ -1,5 +1,10 @@
 <div class="form-container">
-  <form (submit)="onSubmit($event)">
+  <div class="form-container">
+    <div *ngIf="!user">
+      <p>To book a class, first log in.</p>
+      <a routerLink="/logreg">Log in/Register</a>
+    </div>
+  <form *ngIf="user" (submit)="onSubmit($event)">
     <label for="license">Select License:</label>
     <select id="license" name="license" (change)="onLicenseSelect($event)" required>
       <option value="">Select a vehicle type</option>

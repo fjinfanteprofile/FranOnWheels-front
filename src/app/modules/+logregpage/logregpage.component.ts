@@ -21,7 +21,7 @@ export class LogregpageComponent {
   userService: UserService;
 
   constructor(private http: HttpClient, private router: Router, userService: UserService) {
-    this.userService = userService; 
+    this.userService = userService;
   }
 
   toggleForm() {
@@ -49,8 +49,8 @@ export class LogregpageComponent {
 
         this.userService.setUser(user);
 
-        // Redirect to the profile page with user data as parameter
-        this.router.navigate(['/profile']);
+        // Redirect to the home page with user data as parameter
+        this.router.navigate(['/home']);
       },
       error => {
         // Handle login error
