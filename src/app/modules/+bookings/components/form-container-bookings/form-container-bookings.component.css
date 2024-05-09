@@ -42,3 +42,28 @@
   border: 1px solid green;
   border-radius: 5px;
 }
+.bookings-container {
+  margin-top: 20px;
+}
+
+.bookings-container h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.bookings-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.bookings-container li {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.bookings-container li:last-child {
+  margin-bottom: 0;
+}

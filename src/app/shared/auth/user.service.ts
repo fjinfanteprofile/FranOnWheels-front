@@ -16,6 +16,10 @@ export class UserService {
   getUser() {
     return this.user;
   }
+  logout() {
+    this.user = null;
+    this.userSubject.next(null);
+  }
 
   getUserObservable(): Observable<any> {
     return new Observable(observer => {

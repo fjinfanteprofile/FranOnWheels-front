@@ -22,6 +22,7 @@ export class FormContainerBookingsComponent implements OnInit {
   selectedTimeSlot: string | null = null;
   successMessage: string | null = null;
   user: any;
+  classes: any[] = [];
 
   constructor(private httpClient: HttpClient, private router: Router, private userService : UserService) { }
 
@@ -29,6 +30,7 @@ export class FormContainerBookingsComponent implements OnInit {
     this.fetchVehicleTypes();
     // Retrieve user data from route parameters
     this.user = this.userService.getUser();
+    this.fetchUserClasses();
   }
 
   onTimeSlotSelect(event: any){
@@ -131,6 +133,20 @@ export class FormContainerBookingsComponent implements OnInit {
     }
     this.router.navigate(['/success']);
 
+  }
+
+  fetchUserClasses() {
+    if (this.user && this.user.id) {
+      const userId = this.user.id;
+      const url = `http://localhost:8080/classes/user/${userId}`;
+      this.httpClient.get<any[]>(url)
+        .subscribe((data) => {
+          console.log(data);
+          this.classes = data;
+        }, error => {
+          console.error('Error fetching user classes:', error);
+        });
+    }
   }
 
 
