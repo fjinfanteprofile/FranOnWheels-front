@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent, RouterModule],
+  imports: [NavbarComponent, RouterModule,FooterComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
