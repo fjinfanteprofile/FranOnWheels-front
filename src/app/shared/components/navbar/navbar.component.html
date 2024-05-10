@@ -1,11 +1,15 @@
+
 <nav>
   <div class="navbar-container">
     <div class="logo">
-      <a routerLink="/"><img [src]="myUrl" alt="Logo"></a>     
+
+      <a routerLink="/home"><img [src]="myUrl" alt="Logo"></a>
     </div>
     <ul class="nav-links">
-      <li><a routerLink="/bookings">Bookings</a></li>
-      <li><a routerLink="/profile">Profile</a></li>
+      <li *ngIf="!user"><a routerLink="/logreg">Login</a></li>
+      <li *ngIf="user"><a routerLink="/profile">{{ user.username }}</a></li>
+      <li *ngIf="user"><a routerLink="/bookings">Bookings</a></li>
+      <li *ngIf="user && user.role && user.role.id === 2"><a routerLink="/dashboard">Dashboard</a></li>
     </ul>
   </div>
 </nav>

@@ -1,0 +1,17 @@
+<div class="profile-container" *ngIf="!user">
+  <p>To see your profile, first log in.</p>
+  <a routerLink="/logreg">Log in/Register</a>
+</div>
+<div class="profile-container" *ngIf="user">
+  <h2>Welcome to Your Profile</h2>
+  <div class="user-info">
+    <p><strong>Name:</strong> {{ user.name }}</p>
+    <p><strong>Last Name:</strong> {{ user.lastName }}</p>
+    <p><strong>DNI:</strong> {{ user.dni }}</p>
+    <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
+    <p><strong>Address:</strong> {{ user.address }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <button (click)="logout()">Logout</button>
+  </div>
+</div>
+

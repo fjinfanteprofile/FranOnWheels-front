@@ -1,0 +1,44 @@
+<div class="form-container">
+  <div class="login-form-container" *ngIf="showLoginForm">
+    <h2>Login</h2>
+    <form (submit)="onSubmit($event)">
+      <label for="loginEmail">Email:</label>
+      <input type="email" id="loginEmail" name="loginEmail" required [(ngModel)]="email">
+
+      <label for="loginPassword">Password:</label>
+      <input type="password" id="loginPassword" name="loginPassword" required [(ngModel)]="password" >
+
+      <button type="submit">Login</button>
+    </form>
+    <p>{{ loginError }}</p>
+    <p>Don't have an account? <button (click)="toggleForm()">Register here</button></p>
+</div>
+
+<div class="register-form-container" *ngIf="!showLoginForm">
+  <h2>Register</h2>
+  <form (submit)="onRegisterSubmit($event)">
+    <label for="registerUsername">Username:</label>
+    <input type="text" id="registerUsername" name="registerUsername" required [(ngModel)]="username">
+    <label for="registerName">Name:</label>
+    <input type="text" id="registerName" name="registerName" required [(ngModel)]="name">
+    <label for="registerLastName">Last Name:</label>
+    <input type="text" id="registerLastName" name="registerLastName" required [(ngModel)]="lastName">
+    <label for="registerDni">DNI:</label>
+    <input type="text" id="registerDni" name="registerDni" [(ngModel)]="dni">
+    <label for="registerPhoneNumber">Phone Number:</label>
+    <input type="tel" id="registerPhoneNumber" name="registerPhoneNumber" [(ngModel)]="phoneNumber">
+     <label for="registerAddress">Address:</label>
+    <input type="text" id="registerAddress" name="registerAddress" [(ngModel)]="address">
+     <label for="registerEmail">Email:</label>
+    <input type="email" id="registerEmail" name="registerEmail" required [(ngModel)]="email">
+    <label for="registerAge">Age:</label>
+    <input type="text" id="registerAge" name="registerAge" required="" [(ngModel)]="age">
+
+    <label for="registerPassword">Password:</label>
+    <input type="password" id="registerPassword" name="registerPassword" required [(ngModel)]="password">
+
+    <button type="submit">Register</button>
+  </form>
+  <p>Already have an account? <button (click)="toggleForm()">Login here</button></p>
+</div>
+</div>
