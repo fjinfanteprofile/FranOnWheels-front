@@ -9,7 +9,7 @@
       <li *ngIf="!user"><a routerLink="/logreg">Login</a></li>
       <li *ngIf="user"><a routerLink="/profile">{{ user.username }}</a></li>
       <li *ngIf="user"><a routerLink="/bookings">Bookings</a></li>
-      <li *ngIf="user && user.role && user.role.id === 2"><a routerLink="/dashboard">Dashboard</a></li>
+      <li *ngIf="user && user.role && user.role.id === 2"><a routerLink="/admin">Admin Panel</a></li>
     </ul>
   </div>
 </nav>
