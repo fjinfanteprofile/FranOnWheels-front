@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { UserService } from '../../shared/auth/user.service';
+import { UserService } from '../../shared/service/user.service';
 
 @Component({
   selector: 'app-profilepage',

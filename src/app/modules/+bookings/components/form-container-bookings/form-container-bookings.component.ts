@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { UserService } from '../../../../shared/auth/user.service';
+import { UserService } from '../../../../shared/service/user.service';
 import { VehicleTypeService } from '../../service/vehicle-type.service';
 
 @Component({

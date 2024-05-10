@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { UserService } from '../../auth/user.service';
+import { UserService } from '../../service/user.service';
 import { Subscription } from 'rxjs';
 
 @Component({
