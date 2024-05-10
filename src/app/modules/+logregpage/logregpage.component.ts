@@ -51,7 +51,6 @@ export class LogregpageComponent {
     this.loginService.login(this.email, this.password)
       .subscribe(
         user => {
-          console.log('Logged in user:', user);
           this.userService.setUser(user);
           this.router.navigate(['/home']);
         },
@@ -86,7 +85,6 @@ export class LogregpageComponent {
     this.registerService.registerUser(this.username, this.name, this.password, this.email, this.dni, this.phoneNumber, this.address, this.lastName, this.age, this.role, this.active)
       .subscribe(
         response => {
-          console.log('Registration successful:', response);
           this.showLoginForm = true;
         },
         error => {

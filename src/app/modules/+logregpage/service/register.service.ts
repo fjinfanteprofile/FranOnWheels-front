@@ -14,8 +14,6 @@ export class RegisterService {
   registerUser(username: string, name: string, lastName: string, dni: string,
     phoneNumber: string, address: string, email: string, password: string, age: string, role: { id: number }, active: number): Observable<any> {
 
-      console.log('Registering user:', username, name, lastName, dni, phoneNumber, address, email, password, age, role, active);
-
       const registerData = { username, name, lastName, dni, phoneNumber, address, email, password, age, role, active };
     return this.http.post<any>('http://localhost:8080/users', registerData).pipe(
       catchError(error => {

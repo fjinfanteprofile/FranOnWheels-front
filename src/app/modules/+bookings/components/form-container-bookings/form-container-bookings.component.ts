@@ -44,9 +44,7 @@ export class FormContainerBookingsComponent implements OnInit {
     this.fetchVehiclesByType();
   }
   onDateSelect(event: any) {
-    console.log('Event:', event);
     this.selectedDate = event.target.value as string;
-    console.log('Selected Date:', this.selectedDate);
     this.fetchAvailableTimeSlotsForDate(this.selectedDate);
   }
   calculateEndTime(startTime: string): string {
@@ -58,7 +56,6 @@ export class FormContainerBookingsComponent implements OnInit {
   }
   fetchVehicleTypes() {
     this.vehicleTypeService.getVehicleTypes().subscribe((data: any) => {
-      console.log(data);
       this.vehicleTypes = data;
     });
   }
@@ -66,7 +63,6 @@ export class FormContainerBookingsComponent implements OnInit {
   fetchVehiclesByType() {
     if (this.selectedLicense) {
       this.vehicleTypeService.getActiveVehiclesByLicense(this.selectedLicense).subscribe((data: any) => {
-        console.log(data);
         this.vehicles = data;
       });
     }
@@ -85,7 +81,6 @@ export class FormContainerBookingsComponent implements OnInit {
   fetchUserClasses() {
     if (this.user && this.user.id) {
       this.vehicleTypeService.getUserClasses(this.user.id).subscribe((data: any) => {
-        console.log(data);
         this.classes = data;
       }, error => {
         console.error('Error fetching user classes:', error);
@@ -112,7 +107,6 @@ export class FormContainerBookingsComponent implements OnInit {
         };
 
         this.vehicleTypeService.createBooking(bookingData).subscribe(() => {
-          console.log('Booking created successfully');
         }, error => {
           console.error('Error creating booking:', error);
         });
