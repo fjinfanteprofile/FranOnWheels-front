@@ -12,9 +12,14 @@
 
 <div *ngIf="activeTab === 'users'">
   <table>
+    <div class="cross" (click)="setActiveTab('')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z"/>
+      </svg>
+    </div>
     <thead>
       <tr>
-        <th>ID</th>
+        <th>User ID</th>
         <th>Username</th>
         <th>Name</th>
         <th>Last Name</th>
@@ -24,7 +29,6 @@
         <th>Email</th>
         <th>Age</th>
         <th>Role</th>
-        <th>Active</th>
       </tr>
     </thead>
     <tbody>
@@ -39,7 +43,6 @@
         <td>{{ user.email }}</td>
         <td>{{ user.age }}</td>
         <td>{{ user.role.name }}</td>
-        <td>{{ user.active }}</td>
       </tr>
     </tbody>
   </table>
@@ -47,11 +50,68 @@
 </div>
 
 <div *ngIf="activeTab === 'vehicles'">
-  <!-- Add the template for displaying vehicles table -->
-  <p>This is the Vehicles table</p>
+  <table>
+    <div class="cross" (click)="setActiveTab('')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z"/>
+      </svg>
+    </div>
+    <thead>
+      <tr>
+        <th>Vehicle ID</th>
+        <th>Vehicle Type</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>License Plate</th>
+        <th>Gearbox</th>
+        <th>Displacement CC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehicles">
+        <td>{{ vehicle.id }}</td>
+        <td>{{ vehicle.type.name }}</td>
+        <td>{{ vehicle.model }}</td>
+        <td>{{ vehicle.year }}</td>
+        <td>{{ vehicle.licensePlate }}</td>
+        <td>{{ vehicle.gearbox }}</td>
+        <td>{{ vehicle.displacementCc }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <div *ngIf="activeTab === 'classes'">
-  <!-- Add the template for displaying classes table -->
-  <p>This is the Classes table</p>
+  <table>
+    <div class="cross" (click)="setActiveTab('')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z"/>
+      </svg>
+    </div>
+    <thead>
+      <tr>
+        <th>Class ID</th>
+        <th>Vehicle Model</th>
+        <th>Date</th>
+        <th>Time Start</th>
+        <th>Time End</th>
+        <th>User ID</th>
+        <th>User Name</th>
+        <th>Day of Week</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let class of classes">
+        <td>{{ class.id }}</td>
+        <td>{{ getVehicleModel(class.vehicleId) }}</td>
+        <td>{{ class.date }}</td>
+        <td>{{ class.timeStart }}</td>
+        <td>{{ class.timeEnd }}</td>
+        <td>{{ class.userId }}</td>
+        <td>{{ getUserUsername(class.userId) }}</td>
+        <td>{{ class.dayOfWeek }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+

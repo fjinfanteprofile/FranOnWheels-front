@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class UserService {
   private user: any;
   userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private apiUrl = 'http://localhost:8080/users';
+  private apiUrl = 'http://localhost:8080/users/active';
 
   constructor(private http: HttpClient) {}
 
