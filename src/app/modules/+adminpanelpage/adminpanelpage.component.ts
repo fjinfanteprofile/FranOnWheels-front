@@ -19,7 +19,8 @@ export class AdminpanelpageComponent {
   vehicles: any[] = [];
   classes: any[] = [];
 
-  showForm: boolean = false;
+  showFormCreate: boolean = false;
+  showFormUpdate: boolean = false;
 
   username: string = '';
   name: string = '';
@@ -33,7 +34,11 @@ export class AdminpanelpageComponent {
   roleId: number = 1;
   active: number = 1;
 
+  selectedUserId: number = 0;
+  newEmail: string = '';
+
   roles: any[] = [];
+
 
   constructor(
     private userService: UserService,
@@ -93,7 +98,13 @@ export class AdminpanelpageComponent {
   }
 
   showUserForm() {
-    this.showForm = true;
+    this.showFormCreate = true;
+    this.showFormUpdate = false;
+  }
+
+  showUpdateUserForm() {
+    this.showFormUpdate = true;
+    this.showFormCreate = false;
   }
   createUser(): void {
     const userData = {
@@ -116,7 +127,59 @@ export class AdminpanelpageComponent {
       this.age, this.roleId, this.active
     ).subscribe(
       (response: any) => {
-        this.showForm = false;
+        this.showFormCreate = false;
+        // List refresh
+        this.userService.getAllUsers().subscribe(
+          (data: any[]) => {
+            this.users = data;
+          },
+          (error: any) => {
+            console.error('Error fetching users:', error);
+          }
+        );
+      },
+      (error: any) => {
+        console.error('Error creating user:', error);
+      }
+    );
+  }
+
+  updateUser(): void {
+    const userData = {
+      username: this.username,
+      name: this.name,
+      lastName: this.lastName,
+      dni: this.dni,
+      phoneNumber: this.phoneNumber,
+      address: this.address,
+      email: this.email,
+      password: this.password,
+      age: this.age,
+      roleId: this.roleId,
+      active: this.active
+    };
+    console.log(
+      "User Data: " +
+      "Username: " + this.username + ", " +
+      "Name: " + this.name + ", " +
+      "Last Name: " + this.lastName + ", " +
+      "DNI: " + this.dni + ", " +
+      "Phone Number: " + this.phoneNumber + ", " +
+      "Address: " + this.address + ", " +
+      "Email: " + this.email + ", " +
+      "Password: " + this.password + ", " +
+      "Age: " + this.age + ", " +
+      "Role ID: " + this.roleId + ", " +
+      "Active: " + this.active
+    );
+
+    this.userService.updateUser(
+      this.username, this.name, this.password, this.email,
+      this.dni, this.phoneNumber, this.address, this.lastName,
+      this.age, this.roleId, this.active
+    ).subscribe(
+      (response: any) => {
+        this.showFormUpdate = false;
         // List refresh
         this.userService.getAllUsers().subscribe(
           (data: any[]) => {

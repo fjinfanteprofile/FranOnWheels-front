@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+
   private user: any;
   userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private apiUrl = 'http://localhost:8080/users';
@@ -50,10 +51,52 @@ export class UserService {
         email,
         password,
         age,
-        role: { id: roleId }, // Nest the roleId inside a "role" object
+        role: { id: roleId },
         active
       };
     return this.http.post<any>(this.apiUrl, createUserData).pipe(
+      catchError(error => {
+        if (error.status === 400) {
+          return throwError('Registration failed. Please check your details and try again.');
+        } else {
+          return throwError('An error occurred while registering. Please try again later.');
+        }
+      })
+    );
+  }
+
+  updateUser(username: string, name: string, lastName: string, dni: string,
+    phoneNumber: string, address: string, email: string, password: string, age: string, roleId: number, active: number): Observable<any> {
+
+      const createUserData = {
+        username,
+        name,
+        lastName,
+        dni,
+        phoneNumber,
+        address,
+        email,
+        password,
+        age,
+        role: { id: roleId },
+        active
+      };
+
+      console.log("User Data: " +
+        "Username: " + username + ", " +
+        "Name: " + name + ", " +
+        "Last Name: " + lastName + ", " +
+        "DNI: " + dni + ", " +
+        "Phone Number: " + phoneNumber + ", " +
+        "Address: " + address + ", " +
+        "Email: " + email + ", " +
+        "Password: " + password + ", " +
+        "Age: " + age + ", " +
+        "Role ID: " + roleId + ", " +
+        "Active: " + active
+      );
+
+    return this.http.put<any>((`${this.apiUrl}/3`) , createUserData).pipe(
       catchError(error => {
         if (error.status === 400) {
           return throwError('Registration failed. Please check your details and try again.');
