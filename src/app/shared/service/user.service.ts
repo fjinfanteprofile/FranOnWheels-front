@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +8,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class UserService {
   private user: any;
   userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private apiUrl = 'http://localhost:8080/users/active';
+  private apiUrl = 'http://localhost:8080/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllUsers(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(`${this.apiUrl}/active`);
   }
 
   setUser(user: any) {
@@ -33,6 +33,35 @@ export class UserService {
     return new Observable(observer => {
       observer.next(this.user);
     });
+  }
+
+
+
+  createUser(username: string, name: string, lastName: string, dni: string,
+    phoneNumber: string, address: string, email: string, password: string, age: string, roleId: number, active: number): Observable<any> {
+
+      const createUserData = {
+        username,
+        name,
+        lastName,
+        dni,
+        phoneNumber,
+        address,
+        email,
+        password,
+        age,
+        role: { id: roleId }, // Nest the roleId inside a "role" object
+        active
+      };
+    return this.http.post<any>(this.apiUrl, createUserData).pipe(
+      catchError(error => {
+        if (error.status === 400) {
+          return throwError('Registration failed. Please check your details and try again.');
+        } else {
+          return throwError('An error occurred while registering. Please try again later.');
+        }
+      })
+    );
   }
 
 }

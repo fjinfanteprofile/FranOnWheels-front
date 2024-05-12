@@ -35,7 +35,7 @@ table {
   border-collapse: collapse;
   margin-top: 20px;
   position: relative;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 th, td {
@@ -101,10 +101,8 @@ tbody tr:hover {
 }
 
 .button-container {
-  position: absolute;
   bottom: 0px;
   left: 50%;
-  transform: translateX(-50%);
   text-align: center;
 }
 
