@@ -27,6 +27,7 @@ export class AdminpanelpageComponent {
   showVehicleFormUpdate: boolean = false;
   showVehicleFormDelete: boolean = false;
 
+
   username: string = '';
   name: string = '';
   lastName: string = '';
@@ -207,7 +208,7 @@ export class AdminpanelpageComponent {
     this.userService.updateUser(
       this.username, this.name, this.password, this.email,
       this.dni, this.phoneNumber, this.address, this.lastName,
-      this.age, this.roleId, this.active
+      this.age, this.roleId, this.active, this.selectedUserId
     ).subscribe(
       (response: any) => {
         this.showUserFormUpdate = false;
