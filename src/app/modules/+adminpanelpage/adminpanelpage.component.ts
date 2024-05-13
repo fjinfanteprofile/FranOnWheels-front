@@ -19,9 +19,13 @@ export class AdminpanelpageComponent {
   vehicles: any[] = [];
   classes: any[] = [];
 
-  showFormCreate: boolean = false;
-  showFormUpdate: boolean = false;
-  showFormDelete: boolean = false;
+  showUserFormCreate: boolean = false;
+  showUserFormUpdate: boolean = false;
+  showUserFormDelete: boolean = false;
+
+  showVehicleFormCreate: boolean = false;
+  showVehicleFormUpdate: boolean = false;
+  showVehicleFormDelete: boolean = false;
 
   username: string = '';
   name: string = '';
@@ -39,6 +43,21 @@ export class AdminpanelpageComponent {
   newEmail: string = '';
 
   roles: any[] = [];
+
+  newVehicleTypeId: any;
+  newVehicleModel: any;
+  newVehicleYear: any;
+  newLicensePlate: any;
+  newGearbox: any;
+  newDisplacementCc: any;
+  updatedVehicleType: any;
+  updatedVehicleModel: any;
+  updatedVehicleYear: any;
+  updatedLicensePlate: any;
+  updatedGearbox: any;
+  updatedDisplacementCc: any;
+  selectedVehicleId=1;
+  updatedVehicleTypeId: any;
 
 
   constructor(
@@ -98,22 +117,39 @@ export class AdminpanelpageComponent {
     return user ? user.username : '';
   }
 
-  showUserForm() {
-    this.showFormCreate = true;
-    this.showFormUpdate = false;
-    this.showFormDelete = false;
+  showUserCreateForm() {
+    this.showUserFormCreate = true;
+    this.showUserFormUpdate = false;
+    this.showUserFormDelete = false;
   }
 
   showUpdateUserForm() {
-    this.showFormUpdate = true;
-    this.showFormCreate = false;
-    this.showFormDelete = false;
+    this.showUserFormUpdate = true;
+    this.showUserFormCreate = false;
+    this.showUserFormDelete = false;
   }
 
   showDeleteUserForm() {
-    this.showFormDelete = true;
-    this.showFormCreate = false;
-    this.showFormUpdate = false;
+    this.showUserFormDelete = true;
+    this.showUserFormCreate = false;
+    this.showUserFormUpdate = false;
+  }
+  showCreateVehicleForm() {
+    this.showVehicleFormCreate = true;
+    this.showVehicleFormUpdate = false;
+    this.showVehicleFormDelete = false;
+  }
+
+  showUpdateVehicleForm() {
+    this.showVehicleFormUpdate = true;
+    this.showVehicleFormCreate = false;
+    this.showVehicleFormDelete = false;
+  }
+
+  showDeleteVehicleForm() {
+    this.showVehicleFormDelete = true;
+    this.showVehicleFormCreate = false;
+    this.showVehicleFormUpdate = false;
   }
   createUser(): void {
     const userData = {
@@ -136,7 +172,7 @@ export class AdminpanelpageComponent {
       this.age, this.roleId, this.active
     ).subscribe(
       (response: any) => {
-        this.showFormCreate = false;
+        this.showUserFormCreate = false;
         // List refresh
         this.userService.getAllUsers().subscribe(
           (data: any[]) => {
@@ -188,7 +224,7 @@ export class AdminpanelpageComponent {
       this.age, this.roleId, this.active
     ).subscribe(
       (response: any) => {
-        this.showFormUpdate = false;
+        this.showUserFormUpdate = false;
         // List refresh
         this.userService.getAllUsers().subscribe(
           (data: any[]) => {
@@ -208,7 +244,7 @@ export class AdminpanelpageComponent {
     console.log(this.selectedUserId);
     this.userService.deleteUser(this.selectedUserId).subscribe(
       (response: any) => {
-        this.showFormDelete = false;
+        this.showUserFormDelete = false;
         // List refresh
         this.userService.getAllUsers().subscribe(
           (data: any[]) => {
@@ -223,5 +259,77 @@ export class AdminpanelpageComponent {
         console.error('Error creating user:', error);
       }
     );
+}
+
+createVehicle(): void {
+
+  this.vehicleService.createVehicle(this.newVehicleTypeId, this.newVehicleModel, this.newVehicleYear, this.newLicensePlate, this.newGearbox, this.newDisplacementCc, this.active).subscribe(
+    (response: any) => {
+      this.showVehicleFormCreate = false;
+      // List refresh
+      this.vehicleService.getAllVehicles().subscribe(
+        (data: any[]) => {
+          this.vehicles = data;
+        },
+        (error: any) => {
+          console.error('Error fetching vehicles:', error);
+        }
+      );
+    },
+    (error: any) => {
+      console.error('Error creating vehicle:', error);
+    }
+  );
+}
+
+updateVehicle(): void {
+  const vehicleData = {
+    type: { id: this.updatedVehicleTypeId },
+    model: this.updatedVehicleModel,
+    year: this.updatedVehicleYear,
+    licensePlate: this.updatedLicensePlate,
+    gearbox: this.updatedGearbox,
+    displacementCc: this.updatedDisplacementCc
+  };
+
+  this.vehicleService.updateVehicle(this.selectedVehicleId, vehicleData).subscribe(
+    (response: any) => {
+      this.showVehicleFormUpdate = false;
+      // List refresh
+      this.vehicleService.getAllVehicles().subscribe(
+        (data: any[]) => {
+          this.vehicles = data;
+        },
+        (error: any) => {
+          console.error('Error fetching vehicles:', error);
+        }
+      );
+    },
+    (error: any) => {
+      console.error('Error updating vehicle:', error);
+    }
+  );
+}
+
+deleteVehicle(): void {
+  console.log(this.selectedVehicleId);
+  this.vehicleService.deleteVehicle(this.selectedVehicleId).subscribe(
+    (response: any) => {
+      this.showVehicleFormDelete = false;
+      // List refresh
+      this.vehicleService.getAllVehicles().subscribe(
+        (data: any[]) => {
+          this.vehicles = data;
+        },
+        (error: any) => {
+          console.error('Error fetching vehicles:', error);
+        }
+      );
+    },
+    (error: any) => {
+      console.error('Error deleting vehicle:', error);
+    }
+  );
+
 }
 }
