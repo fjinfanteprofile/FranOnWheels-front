@@ -203,20 +203,6 @@ export class AdminpanelpageComponent {
       roleId: this.roleId,
       active: this.active
     };
-    console.log(
-      "User Data: " +
-      "Username: " + this.username + ", " +
-      "Name: " + this.name + ", " +
-      "Last Name: " + this.lastName + ", " +
-      "DNI: " + this.dni + ", " +
-      "Phone Number: " + this.phoneNumber + ", " +
-      "Address: " + this.address + ", " +
-      "Email: " + this.email + ", " +
-      "Password: " + this.password + ", " +
-      "Age: " + this.age + ", " +
-      "Role ID: " + this.roleId + ", " +
-      "Active: " + this.active
-    );
 
     this.userService.updateUser(
       this.username, this.name, this.password, this.email,
@@ -241,7 +227,6 @@ export class AdminpanelpageComponent {
     );
   }
   deleteUser(): void {
-    console.log(this.selectedUserId);
     this.userService.deleteUser(this.selectedUserId).subscribe(
       (response: any) => {
         this.showUserFormDelete = false;
@@ -312,7 +297,6 @@ updateVehicle(): void {
 }
 
 deleteVehicle(): void {
-  console.log(this.selectedVehicleId);
   this.vehicleService.deleteVehicle(this.selectedVehicleId).subscribe(
     (response: any) => {
       this.showVehicleFormDelete = false;

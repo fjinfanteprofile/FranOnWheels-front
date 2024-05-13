@@ -82,19 +82,6 @@ export class UserService {
         active
       };
 
-      console.log("User Data: " +
-        "Username: " + username + ", " +
-        "Name: " + name + ", " +
-        "Last Name: " + lastName + ", " +
-        "DNI: " + dni + ", " +
-        "Phone Number: " + phoneNumber + ", " +
-        "Address: " + address + ", " +
-        "Email: " + email + ", " +
-        "Password: " + password + ", " +
-        "Age: " + age + ", " +
-        "Role ID: " + roleId + ", " +
-        "Active: " + active
-      );
 
     return this.http.put<any>((`${this.apiUrl}/3`) , createUserData).pipe(
       catchError(error => {

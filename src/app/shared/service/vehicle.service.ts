@@ -29,7 +29,6 @@ export class VehicleService {
   }
 
   updateVehicle(vehicleId: number, updatedVehicleData: any): Observable<any> {
-    console.log(updatedVehicleData);
     return this.http.put<any>(`${this.apiUrl}/${vehicleId}`, updatedVehicleData);
   }
 
