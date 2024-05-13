@@ -254,8 +254,63 @@
     </tbody>
   </table>
   <div class="button-container">
-    <button class="create-button">Create</button>
-    <button class="update-button">Update</button>
-    <button class="delete-button">Delete</button>
+    <button class="create-button" (click)="showCreateClassForm()">Create</button>
+    <button class="update-button" (click)="showUpdateClassForm()">Update</button>
+    <button class="delete-button" (click)="showDeleteClassForm()">Delete</button>
   </div>
+
+  <div *ngIf="showClassFormCreate">
+    <form (submit)="createClass()">
+      <label for="createVehicleId">Select Vehicle to link to class:</label>
+      <select id="createVehicleId" name="createVehicleId" [(ngModel)]="selectedVehicleId">
+        <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle.id">{{ vehicle.model }}</option>
+      </select>
+      <label for="newClassDate">Date:</label>
+      <input type="date" id="newClassDate" name="newClassDate" required [(ngModel)]="newClassDate">
+      <label for="newClassTimeStart">Time Start:</label>
+      <input type="time" id="newClassTimeStart" name="newClassTimeStart" required [(ngModel)]="newClassTimeStart">
+      <label for="newClassTimeEnd">Time End:</label>
+      <input type="time" id="newClassTimeEnd" name="newClassTimeEnd" required [(ngModel)]="newClassTimeEnd">
+      <label for="newClassUserId">User ID:</label>
+      <select id="newClassUserId" name="newClassUserId" required [(ngModel)]="newClassUserId">
+        <option *ngFor="let user of users" [ngValue]="user.id">{{ user.email }}</option>
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div *ngIf="showClassFormUpdate">
+    <form (submit)="updateClass()">
+      <label for="updateClassId">Select Class to Update:</label>
+      <select id="updateClassId" name="updateClassId" [(ngModel)]="updatedClassId">
+        <option *ngFor="let class of classes" [ngValue]="class.id">{{ class.id }}</option>
+      </select>
+      <label for="updatedClassVehicleId">New Vehicle ID:</label>
+      <select id="updatedClassVehicleId" name="updatedClassVehicleId" [(ngModel)]="updatedVehicleId">
+        <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle.id">{{ vehicle.model }}</option>
+      </select>
+      <label for="updatedClassDate">New Date:</label>
+      <input type="date" id="updatedClassDate" name="updatedClassDate" required [(ngModel)]="updatedDate">
+      <label for="updatedClassTimeStart">New Time Start:</label>
+      <input type="time" id="updatedClassTimeStart" name="updatedClassTimeStart" required [(ngModel)]="updatedtimeStart">
+      <label for="updatedClassTimeEnd">New Time End:</label>
+      <input type="time" id="updatedClassTimeEnd" name="updatedClassTimeEnd" required [(ngModel)]="updatedtimeEnd">
+      <label for="updatedClassUserId">New User ID:</label>
+      <select id="updatedClassUserId" name="updatedClassUserId" [(ngModel)]="updateduserId">
+        <option *ngFor="let user of users" [ngValue]="user.id">{{ user.email }}</option>
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div *ngIf="showClassFormDelete">
+    <form (submit)="deleteClass()">
+      <label for="deleteClassId">Select Class to Delete:</label>
+      <select id="deleteClassId" name="deleteClassId" [(ngModel)]="selectedClassId">
+        <option *ngFor="let class of classes" [ngValue]="class.id">{{ class.id }}</option>
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
 </div>

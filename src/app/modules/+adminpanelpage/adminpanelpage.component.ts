@@ -27,6 +27,10 @@ export class AdminpanelpageComponent {
   showVehicleFormUpdate: boolean = false;
   showVehicleFormDelete: boolean = false;
 
+  showClassFormCreate: boolean = false;
+  showClassFormUpdate: boolean = false;
+  showClassFormDelete: boolean = false;
+
 
   username: string = '';
   name: string = '';
@@ -52,13 +56,30 @@ export class AdminpanelpageComponent {
   newGearbox: any;
   newDisplacementCc: any;
   updatedVehicleType: any;
+  updatedVehicleId: number = 0;
   updatedVehicleModel: any;
   updatedVehicleYear: any;
   updatedLicensePlate: any;
+  updatedDate: any;
+  updatedtimeStart: any;
+  updatedtimeEnd: any;
+  updateduserId: number = 0;
   updatedGearbox: any;
   updatedDisplacementCc: any;
   selectedVehicleId=1;
   updatedVehicleTypeId: any;
+  selectedClassId: number = 0;
+  updatedClassId: number = 0;
+  updatedClassData: any;
+  newClassDayOfWeek: number = 0;
+  newClassUserId: number = 0;
+  newClassTimeEnd: any;
+  newClassTimeStart: any;
+  newClassDate: any;
+  newClassVehicleId: number = 0;
+  newVehicleId: number = 0;
+
+
 
 
   constructor(
@@ -203,7 +224,7 @@ export class AdminpanelpageComponent {
       age: this.age,
       roleId: this.roleId,
       active: this.active,
-      id: this.selectedUserId // Assuming you have a selectedUserId property that holds the user ID
+      id: this.selectedUserId
     };
 
     this.userService.updateUser(userData).subscribe(
@@ -313,5 +334,101 @@ deleteVehicle(): void {
     }
   );
 
+}
+
+showCreateClassForm() {
+  this.showClassFormCreate = true;
+  this.showClassFormUpdate = false;
+  this.showClassFormDelete = false;
+}
+
+showUpdateClassForm() {
+  this.showClassFormUpdate = true;
+  this.showClassFormCreate = false;
+  this.showClassFormDelete = false;
+}
+
+showDeleteClassForm() {
+  this.showClassFormDelete = true;
+  this.showClassFormCreate = false;
+  this.showClassFormUpdate = false;
+}
+
+createClass(): void {
+  this.classService.createClass(
+    this.selectedVehicleId,
+    this.newClassDate,
+    this.newClassTimeStart,
+    this.newClassTimeEnd,
+    this.newClassUserId,
+    this.active
+  ).subscribe(
+    (response: any) => {
+      this.showClassFormCreate = false;
+      // Refresh class list
+      this.classService.getAllClasses().subscribe(
+        (data: any[]) => {
+          this.classes = data;
+        },
+        (error: any) => {
+          console.error('Error fetching classes:', error);
+        }
+      );
+    },
+    (error: any) => {
+      console.error('Error creating class:', error);
+    }
+  );
+}
+
+updateClass(): void {
+
+  const updateClassData = {
+    vehicleId : this.updatedVehicleId,
+    date : this.updatedDate,
+    timeStart : this.updatedtimeStart,
+    timeEnd : this.updatedtimeEnd,
+    userId : this.updateduserId,
+    active : this.active,
+
+  };
+  this.classService.updateClass(updateClassData, this.updatedClassId
+  ).subscribe(
+    (response: any) => {
+      this.showClassFormUpdate = false;
+      // Refresh class list
+      this.classService.getAllClasses().subscribe(
+        (data: any[]) => {
+          this.classes = data;
+        },
+        (error: any) => {
+          console.error('Error fetching classes:', error);
+        }
+      );
+    },
+    (error: any) => {
+      console.error('Error updating class:', error);
+    }
+  );
+}
+
+deleteClass(): void {
+  this.classService.deleteClass(this.selectedClassId).subscribe(
+    (response: any) => {
+      this.showClassFormDelete = false;
+      // Refresh class list
+      this.classService.getAllClasses().subscribe(
+        (data: any[]) => {
+          this.classes = data;
+        },
+        (error: any) => {
+          console.error('Error fetching classes:', error);
+        }
+      );
+    },
+    (error: any) => {
+      console.error('Error deleting class:', error);
+    }
+  );
 }
 }
