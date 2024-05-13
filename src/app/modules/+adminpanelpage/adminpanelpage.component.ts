@@ -21,6 +21,7 @@ export class AdminpanelpageComponent {
 
   showFormCreate: boolean = false;
   showFormUpdate: boolean = false;
+  showFormDelete: boolean = false;
 
   username: string = '';
   name: string = '';
@@ -100,11 +101,19 @@ export class AdminpanelpageComponent {
   showUserForm() {
     this.showFormCreate = true;
     this.showFormUpdate = false;
+    this.showFormDelete = false;
   }
 
   showUpdateUserForm() {
     this.showFormUpdate = true;
     this.showFormCreate = false;
+    this.showFormDelete = false;
+  }
+
+  showDeleteUserForm() {
+    this.showFormDelete = true;
+    this.showFormCreate = false;
+    this.showFormUpdate = false;
   }
   createUser(): void {
     const userData = {
@@ -195,4 +204,24 @@ export class AdminpanelpageComponent {
       }
     );
   }
+  deleteUser(): void {
+    console.log(this.selectedUserId);
+    this.userService.deleteUser(this.selectedUserId).subscribe(
+      (response: any) => {
+        this.showFormDelete = false;
+        // List refresh
+        this.userService.getAllUsers().subscribe(
+          (data: any[]) => {
+            this.users = data;
+          },
+          (error: any) => {
+            console.error('Error fetching users:', error);
+          }
+        );
+      },
+      (error: any) => {
+        console.error('Error creating user:', error);
+      }
+    );
+}
 }

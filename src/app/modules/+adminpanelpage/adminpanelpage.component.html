@@ -50,7 +50,7 @@
   <div class="button-container">
     <button class="create-button" (click)="showUserForm()">Create</button>
     <button class="update-button" (click)="showUpdateUserForm()">Update</button>
-    <button class="delete-button">Delete</button>
+    <button class="delete-button" (click)="showDeleteUserForm()">Delete</button>
   </div>
 
   <div *ngIf="showFormCreate">
@@ -120,6 +120,15 @@
       <button type="submit">Submit</button>
     </form>
   </div>
+  <div *ngIf="showFormDelete">
+    <form (submit)="deleteUser()">
+    <label for="deleteUser">Select User to Delete:</label>
+    <select id="deleteid" name="deleteid" [(ngModel)]="selectedUserId">
+      <option *ngFor="let user of users" [ngValue]="user.id">{{ user.email }}</option>
+    </select>
+    <button type="submit">Submit</button>
+    </form>
+  </div>
 
 </div>
 
@@ -159,6 +168,7 @@
     <button class="update-button">Update</button>
     <button class="delete-button">Delete</button>
   </div>
+  
 </div>
 
 <div *ngIf="activeTab === 'classes'">
