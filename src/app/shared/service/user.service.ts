@@ -65,25 +65,8 @@ export class UserService {
     );
   }
 
-  updateUser(username: string, name: string, lastName: string, dni: string,
-    phoneNumber: string, address: string, email: string, password: string, age: string, roleId: number, active: number, id: number): Observable<any> {
-
-      const createUserData = {
-        username,
-        name,
-        lastName,
-        dni,
-        phoneNumber,
-        address,
-        email,
-        password,
-        age,
-        role: { id: roleId },
-        active
-      };
-
-
-    return this.http.put<any>((`${this.apiUrl}/${id}`) , createUserData).pipe(
+  updateUser(userData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${userData.id}`, userData).pipe(
       catchError(error => {
         if (error.status === 400) {
           return throwError('Registration failed. Please check your details and try again.');

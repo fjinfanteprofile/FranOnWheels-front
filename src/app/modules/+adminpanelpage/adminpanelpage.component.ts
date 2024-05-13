@@ -202,14 +202,11 @@ export class AdminpanelpageComponent {
       password: this.password,
       age: this.age,
       roleId: this.roleId,
-      active: this.active
+      active: this.active,
+      id: this.selectedUserId // Assuming you have a selectedUserId property that holds the user ID
     };
 
-    this.userService.updateUser(
-      this.username, this.name, this.password, this.email,
-      this.dni, this.phoneNumber, this.address, this.lastName,
-      this.age, this.roleId, this.active, this.selectedUserId
-    ).subscribe(
+    this.userService.updateUser(userData).subscribe(
       (response: any) => {
         this.showUserFormUpdate = false;
         // List refresh
@@ -223,7 +220,7 @@ export class AdminpanelpageComponent {
         );
       },
       (error: any) => {
-        console.error('Error creating user:', error);
+        console.error('Error updating user:', error);
       }
     );
   }
