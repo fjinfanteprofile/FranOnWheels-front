@@ -13,6 +13,20 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  updateUserProfile(userData: any): Observable<any> {
+    console.log(userData);
+
+    return this.http.put<any>(`${this.apiUrl}/profile/${userData.id}`, userData).pipe(
+      catchError(error => {
+        if (error.status === 400) {
+          return throwError('Profile update failed. Please check your details and try again.');
+        } else {
+          return throwError('An error occurred while updating profile. Please try again later.');
+        }
+      })
+    );
+  }
+
   getAllUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/active`);
   }
