@@ -1,10 +1,11 @@
+
 import { Routes } from '@angular/router';
 import { HomeComponent } from './modules/+home/home.component';
 import { BookingsComponent } from './modules/+bookings/bookings.component';
 import { SuccessbookingComponent } from './modules/+successbooking/successbooking.component';
 import { LogregpageComponent } from './modules/+logregpage/logregpage.component';
 import { ProfilepageComponent } from './modules/+profilepage/profilepage.component';
-import { DashboardComponent } from './modules/+dashboard/dashboard.component';
+import { AdminpanelpageComponent } from './modules/+adminpanelpage/adminpanelpage.component';
 
 
 export const routes: Routes = [
@@ -13,5 +14,5 @@ export const routes: Routes = [
   {path: 'success', component: SuccessbookingComponent},
   {path: 'logreg', component: LogregpageComponent},
   {path: 'profile', component: ProfilepageComponent},
-  {path: 'dashboard', component: DashboardComponent}
+  {path: 'admin', component: AdminpanelpageComponent},
 ];

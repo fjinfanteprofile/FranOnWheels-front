@@ -7,17 +7,8 @@
   text-align: center;
 }
 
-.contact-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 .contact-links a {
-  color: #fff;
   text-decoration: none;
-  margin: 10px;
-  flex: 1 1 calc(50% - 20px);
-  max-width: calc(50% - 20px);
-  box-sizing: border-box;
+  color: #fff;
+  margin: 10px 0;
 }

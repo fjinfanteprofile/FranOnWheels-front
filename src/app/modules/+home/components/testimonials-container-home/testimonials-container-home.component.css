@@ -1,4 +1,8 @@
+.row{
 
+padding-bottom: 50px;
+
+}
 .testimonials-container {
   display: flex;
   flex-wrap: wrap;
@@ -8,6 +12,7 @@
 .testimonials-item {
   flex: 0 0 calc(50% - 100px);
   margin-bottom: 20px;
+  padding: 20px;
 }
 
 .testimonials-item img {

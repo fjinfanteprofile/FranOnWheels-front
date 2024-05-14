@@ -1,17 +1,41 @@
-<div class="profile-container" *ngIf="!user">
-  <p>To see your profile, first log in.</p>
-  <a routerLink="/logreg">Log in/Register</a>
-</div>
-<div class="profile-container" *ngIf="user">
-  <h2>Welcome to Your Profile</h2>
-  <div class="user-info">
-    <p><strong>Name:</strong> {{ user.name }}</p>
-    <p><strong>Last Name:</strong> {{ user.lastName }}</p>
-    <p><strong>DNI:</strong> {{ user.dni }}</p>
-    <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
-    <p><strong>Address:</strong> {{ user.address }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <button (click)="logout()">Logout</button>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div *ngIf="!user">
+        <p class="text-center">To see your profile, first log in.</p>
+        <a routerLink="/logreg" class="btn btn-primary btn-lg btn-block">Log in/Register</a>
+      </div>
+      <div *ngIf="user">
+        <h2 class="text-center">Welcome to Your Profile</h2>
+        <form (ngSubmit)="updateProfile()" #profileForm="ngForm">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="user.name" required>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName" required>
+          </div>
+          <div class="form-group">
+            <label for="dni">DNI:</label>
+            <input type="text" class="form-control" id="dni" name="dni" [(ngModel)]="user.dni" required>
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" [(ngModel)]="user.phoneNumber" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" class="form-control" id="address" name="address" [(ngModel)]="user.address" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Update Profile</button>
+          <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
-
