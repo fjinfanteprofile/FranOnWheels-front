@@ -1,17 +1,22 @@
-<div class="profile-container" *ngIf="!user">
-  <p>To see your profile, first log in.</p>
-  <a routerLink="/logreg">Log in/Register</a>
-</div>
-<div class="profile-container" *ngIf="user">
-  <h2>Welcome to Your Profile</h2>
-  <div class="user-info">
-    <p><strong>Name:</strong> {{ user.name }}</p>
-    <p><strong>Last Name:</strong> {{ user.lastName }}</p>
-    <p><strong>DNI:</strong> {{ user.dni }}</p>
-    <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
-    <p><strong>Address:</strong> {{ user.address }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <button (click)="logout()">Logout</button>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="profile-container" *ngIf="!user">
+        <p class="text-center">To see your profile, first log in.</p>
+        <a routerLink="/logreg" class="btn btn-primary btn-lg btn-block">Log in/Register</a>
+      </div>
+      <div class="profile-container" *ngIf="user">
+        <h2 class="text-center">Welcome to Your Profile</h2>
+        <div class="user-info">
+          <p><strong>Name:</strong> {{ user.name }}</p>
+          <p><strong>Last Name:</strong> {{ user.lastName }}</p>
+          <p><strong>DNI:</strong> {{ user.dni }}</p>
+          <p><strong>Phone Number:</strong> {{ user.phoneNumber }}</p>
+          <p><strong>Address:</strong> {{ user.address }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <button class="btn btn-danger btn-lg" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
