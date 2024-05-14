@@ -1,6 +1,6 @@
 .form-container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -35,13 +35,6 @@
   background-color: #0056b3;
 }
 
-.success-message {
-  background-color: lightgreen;
-  padding: 10px;
-  margin-top: 10px;
-  border: 1px solid green;
-  border-radius: 5px;
-}
 .bookings-container {
   margin-top: 20px;
 }
@@ -51,12 +44,7 @@
   margin-bottom: 10px;
 }
 
-.bookings-container ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.bookings-container li {
+.bookings-container .class-info {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -64,6 +52,6 @@
   margin-bottom: 10px;
 }
 
-.bookings-container li:last-child {
+.bookings-container .class-info:last-child {
   margin-bottom: 0;
 }
