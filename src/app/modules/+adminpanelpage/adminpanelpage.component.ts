@@ -431,4 +431,15 @@ deleteClass(): void {
     }
   );
 }
+closeForm() {
+  this.showUserFormCreate = false;
+  this.showUserFormUpdate = false;
+  this.showUserFormDelete = false;
+  this.showVehicleFormCreate = false;
+  this.showVehicleFormUpdate = false;
+  this.showVehicleFormDelete = false;
+  this.showClassFormCreate = false;
+  this.showClassFormUpdate = false;
+  this.showClassFormDelete = false;
+}
 }
