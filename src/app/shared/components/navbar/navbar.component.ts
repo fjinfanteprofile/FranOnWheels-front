@@ -1,6 +1,6 @@
 // navbar.component.ts
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import {Component, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { Subscription } from 'rxjs';

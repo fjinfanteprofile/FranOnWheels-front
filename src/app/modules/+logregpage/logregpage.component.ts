@@ -52,7 +52,7 @@ export class LogregpageComponent {
       .subscribe(
         user => {
           this.userService.setUser(user);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         },
         error => {
           console.error('Login error:', error);

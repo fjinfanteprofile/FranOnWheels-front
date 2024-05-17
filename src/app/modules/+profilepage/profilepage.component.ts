@@ -42,6 +42,6 @@ export class ProfilepageComponent implements OnInit {
 
   logout(): void {
     this.userService.logout();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 }
