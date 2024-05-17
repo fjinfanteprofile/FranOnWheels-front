@@ -9,7 +9,7 @@ import { AdminpanelpageComponent } from './modules/+adminpanelpage/adminpanelpag
 
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   {path: 'bookings', component: BookingsComponent},
   {path: 'success', component: SuccessbookingComponent},
   {path: 'logreg', component: LogregpageComponent},
