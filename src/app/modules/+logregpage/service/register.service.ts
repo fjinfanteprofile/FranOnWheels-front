@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -16,12 +16,8 @@ export class RegisterService {
 
       const registerData = { username, name, lastName, dni, phoneNumber, address, email, password, age, role, active };
     return this.http.post<any>('http://localhost:8080/users', registerData).pipe(
-      catchError(error => {
-        if (error.status === 400) {
-          return throwError('Registration failed. Please check your details and try again.');
-        } else {
-          return throwError('An error occurred while registering. Please try again later.');
-        }
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error);
       })
     );
   }

@@ -21,9 +21,6 @@ export class ClassService {
       timeEnd,
       active
     };
-
-    console.log(classData);
-
     return this.http.post<any>(`${this.apiUrl}/${userId}`, classData).pipe(
       catchError(error => {
         if (error.status === 400) {

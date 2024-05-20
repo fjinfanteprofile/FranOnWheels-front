@@ -14,8 +14,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   updateUserProfile(userData: any): Observable<any> {
-    console.log(userData);
-
     return this.http.put<any>(`${this.apiUrl}/profile/${userData.id}`, userData).pipe(
       catchError(error => {
         if (error.status === 400) {
