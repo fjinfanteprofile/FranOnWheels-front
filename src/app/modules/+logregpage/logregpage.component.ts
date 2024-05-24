@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { LoginService } from './service/login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterService } from './service/register.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-logregpage',
@@ -28,7 +30,8 @@ export class LogregpageComponent {
     private loginService: LoginService,
     private registerService: RegisterService,
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -67,6 +70,7 @@ export class LogregpageComponent {
       user => {
         if (user) {
           this.userService.setUser(user);
+          this.snackBar.open('Login successful!', '', { duration: 2000 });
           this.router.navigate(['/']);
         } else {
           this.loginError = 'Invalid email or password. Please try again.';
@@ -95,6 +99,7 @@ export class LogregpageComponent {
       .subscribe(
         response => {
           this.showLoginForm = true;
+          this.snackBar.open('Registration successful! Now you can log in.', '', { duration: 2000 });
           this.registerError = null;
         },
       error => {
