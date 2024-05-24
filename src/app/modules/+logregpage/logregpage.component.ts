@@ -20,6 +20,8 @@ export class LogregpageComponent {
   registerError: string | null = null;
   loginForm: FormGroup;
   registerForm: FormGroup;
+  private loginSub: any;
+  private registerSub: any;
 
   constructor(
     private router: Router,
@@ -47,6 +49,7 @@ export class LogregpageComponent {
       active: [1]
     });
   }
+
 
   toggleForm() {
     this.showLoginForm = !this.showLoginForm;
@@ -109,5 +112,14 @@ export class LogregpageComponent {
         this.markFormGroupTouched(control);
       }
     });
+}
+ngOnDestroy() {
+  if (this.loginSub) {
+    this.loginSub.unsubscribe();
+  }
+
+  if (this.registerSub) {
+    this.registerSub.unsubscribe();
+  }
 }
 }
