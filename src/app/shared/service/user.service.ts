@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { ApiUrls } from '../uris/ApiUrls';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class UserService {
 
   private user: any;
   userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private apiUrl = 'http://localhost:8080/users';
+  private apiUrl = ApiUrls.USERS_URL;
 
   constructor(private http: HttpClient) { }
 

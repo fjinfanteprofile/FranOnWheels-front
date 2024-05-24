@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
+import { ApiUrls } from '../uris/ApiUrls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClassService {
-  private apiUrl = 'http://localhost:8080/classes';
+  private apiUrl = ApiUrls.CLASSES_URL;
 
   constructor(private http: HttpClient) {}
 
