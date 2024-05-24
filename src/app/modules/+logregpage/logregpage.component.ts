@@ -31,14 +31,22 @@ export class LogregpageComponent {
     private registerService: RegisterService,
     private fb: FormBuilder,
     private userService: UserService,
-    private snackBar: MatSnackBar
-  ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
+    private snackBar: MatSnackBar,
 
-    this.registerForm = this.fb.group({
+  ) {
+    this.loginForm = this.createLoginForm();
+    this.registerForm = this.createRegisterForm();
+  }
+
+  createLoginForm(config = {
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+  }) {
+    return this.fb.group(config);
+  }
+
+  createRegisterForm() {
+    return this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       name: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -46,14 +54,12 @@ export class LogregpageComponent {
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       address: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8),  Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
       age: ['', [Validators.required, Validators.min(18), Validators.max(120), Validators.pattern(/^\d+$/)]],
-      role: [ { id: 1 }],
-      active: [1]
+      role: [{ id: 1 }],
+      active: [1],
     });
   }
-
-
   toggleForm() {
     this.showLoginForm = !this.showLoginForm;
     this.loginError = null;
@@ -102,11 +108,11 @@ export class LogregpageComponent {
           this.snackBar.open('Registration successful! Now you can log in.', '', { duration: 2000 });
           this.registerError = null;
         },
-      error => {
+        error => {
           this.registerError = 'An error occurred while registering. Please try again.';
 
-      }
-    );
+        }
+      );
   }
 
   markFormGroupTouched(formGroup: FormGroup) {
@@ -117,14 +123,14 @@ export class LogregpageComponent {
         this.markFormGroupTouched(control);
       }
     });
-}
-ngOnDestroy() {
-  if (this.loginSub) {
-    this.loginSub.unsubscribe();
   }
+  ngOnDestroy() {
+    if (this.loginSub) {
+      this.loginSub.unsubscribe();
+    }
 
-  if (this.registerSub) {
-    this.registerSub.unsubscribe();
+    if (this.registerSub) {
+      this.registerSub.unsubscribe();
+    }
   }
-}
 }
