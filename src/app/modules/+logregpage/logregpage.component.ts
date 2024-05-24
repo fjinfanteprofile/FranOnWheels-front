@@ -41,7 +41,7 @@ export class LogregpageComponent {
       phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       address: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(8),  Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
       age: ['', [Validators.required, Validators.min(18), Validators.max(120), Validators.pattern(/^\d+$/)]],
       role: [ { id: 1 }],
       active: [1]
@@ -96,7 +96,7 @@ export class LogregpageComponent {
         },
       error => {
           this.registerError = 'An error occurred while registering. Please try again.';
-        
+
       }
     );
   }
