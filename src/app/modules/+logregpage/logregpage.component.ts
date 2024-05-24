@@ -1,96 +1,137 @@
 import { UserService } from '../../shared/service/user.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from './service/login.service'; // Import LoginService
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { LoginService } from './service/login.service';
+import { HttpClientModule } from '@angular/common/http';
 import { RegisterService } from './service/register.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { errorMessages } from '../../shared/errormessages/errors';
+
 
 @Component({
   selector: 'app-logregpage',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule],
   templateUrl: './logregpage.component.html',
   styleUrls: ['./logregpage.component.css']
 })
 export class LogregpageComponent {
   showLoginForm: boolean = true;
   loginError: string | null = null;
-  email: string = '';
-  password: string = '';
+  registerError: string | null = null;
+  loginForm: FormGroup;
+  registerForm: FormGroup;
+  private loginSub: any;
+  private registerSub: any;
 
-  username: string = '';
-  name: string = '';
-  lastName: string = '';
-  dni: string = '';
-  phoneNumber: string = '';
-  address: string = '';
-  age: string = '';
-  role: { id: number } = { id: 1 };
-  active: number = 1;
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private registerService: RegisterService,
+    private fb: FormBuilder,
+    private userService: UserService,
+    private snackBar: MatSnackBar,
 
-  constructor(private router: Router, private userService: UserService, private loginService: LoginService, private http: HttpClient
-    , private registerService: RegisterService
   ) {
-    this.http = http;
+    this.loginForm = this.createLoginForm();
+    this.registerForm = this.createRegisterForm();
   }
 
+  createLoginForm(config = {
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+  }) {
+    return this.fb.group(config);
+  }
+
+  createRegisterForm() {
+    return this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', Validators.required],
+      lastName: ['', Validators.required],
+      dni: ['', [Validators.required, Validators.pattern(/^\d{8,9}[A-Za-z]?$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      address: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
+      age: ['', [Validators.required, Validators.min(18), Validators.max(120), Validators.pattern(/^\d+$/)]],
+      role: [{ id: 1 }],
+      active: [1],
+    });
+  }
   toggleForm() {
     this.showLoginForm = !this.showLoginForm;
     this.loginError = null;
+    this.registerError = null;
   }
 
-  onSubmit(event: Event): void {
-    event.preventDefault();
-    const loginData = {
-      email: this.email,
-      password: this.password
-    };
+  onSubmit() {
+    if (this.loginForm.invalid) {
+      return;
+    }
 
-    this.loginService.login(this.email, this.password)
-      .subscribe(
-        user => {
+    const loginData = this.loginForm.value;
+    this.loginService.login(loginData.email, loginData.password).subscribe(
+      user => {
+        if (user) {
           this.userService.setUser(user);
-          this.router.navigate(['/home']);
-        },
-        error => {
-          console.error('Login error:', error);
-          if (error.status === 401) {
-            this.loginError = 'Invalid email or password. Please try again.';
-          } else {
-            this.loginError = 'An error occurred while logging in. Please try again later.';
-          }
+          this.snackBar.open('Login successful!', '', { duration: 2000 });
+          this.router.navigate(['/']);
+        } else {
+          this.loginError = errorMessages.login.loginError;
         }
-      );
+      },
+      error => {
+        console.error('Login error:', error);
+        if (error === errorMessages.login.invalidCredentials) {
+          this.loginError = errorMessages.login.invalidCredentials;
+        } else {
+          this.loginError = errorMessages.login.loginError;
+        }
+      }
+    );
   }
 
-  onRegisterSubmit(event: Event): void {
-    event.preventDefault();
+  onRegisterSubmit() {
+    if (this.registerForm.invalid) {
+      this.markFormGroupTouched(this.registerForm);
+      return;
+    }
 
-    const userData = {
-      username: this.username,
-      name: this.name,
-      lastName: this.lastName,
-      dni: this.dni,
-      phoneNumber: this.phoneNumber,
-      address: this.address,
-      email: this.email,
-      password: this.password,
-      age: this.age,
-      role: this.role,
-      active: this.active
-    };
+    const { username, name, lastName, dni, phoneNumber, address, email, password, age, role, active } = this.registerForm.value;
 
-    this.registerService.registerUser(this.username, this.name, this.password, this.email, this.dni, this.phoneNumber, this.address, this.lastName, this.age, this.role, this.active)
+    this.registerService.registerUser(username, name, lastName, dni, phoneNumber, address, email, password, age, role, active)
       .subscribe(
         response => {
           this.showLoginForm = true;
+          this.snackBar.open('Registration successful! Now you can log in.', '', { duration: 2000 });
+          this.registerError = null;
         },
         error => {
-          console.error('Registration error:', error);
-          this.loginError = 'An error occurred while registering. Please try again.';
+          this.registerError = errorMessages.register.registrationError;
+
         }
       );
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+  ngOnDestroy() {
+    if (this.loginSub) {
+      this.loginSub.unsubscribe();
+    }
+
+    if (this.registerSub) {
+      this.registerSub.unsubscribe();
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { ApiUrls } from '../uris/ApiUrls';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 export class RolesService {
   private user: any;
   userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private apiUrl = 'http://localhost:8080/roles';
+  private apiUrl = ApiUrls.ROLES_URL;
 
   constructor(private http: HttpClient) {}
 
