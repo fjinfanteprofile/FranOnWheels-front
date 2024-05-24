@@ -7,6 +7,7 @@ import { LoginService } from './service/login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterService } from './service/register.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { errorMessages } from '../../shared/errormessages/errors';
 
 
 @Component({
@@ -79,15 +80,15 @@ export class LogregpageComponent {
           this.snackBar.open('Login successful!', '', { duration: 2000 });
           this.router.navigate(['/']);
         } else {
-          this.loginError = 'Invalid email or password. Please try again.';
+          this.loginError = errorMessages.login.loginError;
         }
       },
       error => {
         console.error('Login error:', error);
-        if (error === 'Invalid email or password. Please try again.') {
-          this.loginError = error;
+        if (error === errorMessages.login.invalidCredentials) {
+          this.loginError = errorMessages.login.invalidCredentials;
         } else {
-          this.loginError = 'An error occurred while logging in. Please try again later.';
+          this.loginError = errorMessages.login.loginError;
         }
       }
     );
@@ -109,7 +110,7 @@ export class LogregpageComponent {
           this.registerError = null;
         },
         error => {
-          this.registerError = 'An error occurred while registering. Please try again.';
+          this.registerError = errorMessages.register.registrationError;
 
         }
       );
