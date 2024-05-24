@@ -95,11 +95,8 @@ export class LogregpageComponent {
           this.registerError = null;
         },
       error => {
-        if (error.error && error.error.message) {
-          this.registerError = error.error.message;
-        } else {
           this.registerError = 'An error occurred while registering. Please try again.';
-        }
+        
       }
     );
   }
