@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 export class ProfilepageComponent implements OnInit {
   user: any;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private snackbar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.user = this.userService.getUser();
@@ -43,5 +44,6 @@ export class ProfilepageComponent implements OnInit {
   logout(): void {
     this.userService.logout();
     this.router.navigate(['/']);
+    this.snackbar.open('Logout successful', '', { duration: 2000 });
   }
 }
