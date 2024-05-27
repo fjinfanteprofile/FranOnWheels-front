@@ -12,8 +12,31 @@ export class UserService {
   userSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private apiUrl = ApiUrls.USERS_URL;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.loadUserFromLocalStorage();
+  }
 
+  private loadUserFromLocalStorage() {
+    if (typeof localStorage !== 'undefined') {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        this.user = JSON.parse(storedUser);
+        this.userSubject.next(this.user);
+      }
+    }
+  }
+
+  private saveUserToLocalStorage(user: any) {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }
+
+  private removeUserFromLocalStorage() {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('user');
+    }
+  }
   updateUserProfile(userData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/profile/${userData.id}`, userData).pipe(
       catchError(error => {
@@ -33,6 +56,7 @@ export class UserService {
   setUser(user: any) {
     this.user = user;
     this.userSubject.next(user); // Emit the updated user to subscribers
+    this.saveUserToLocalStorage(user);
   }
 
   getUser() {
@@ -41,6 +65,7 @@ export class UserService {
   logout() {
     this.user = null;
     this.userSubject.next(null);
+    this.removeUserFromLocalStorage();
   }
 
   getUserObservable(): Observable<any> {
