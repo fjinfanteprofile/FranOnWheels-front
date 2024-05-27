@@ -79,6 +79,7 @@ export class UserService {
   }
 
   updateUser(userData: any): Observable<any> {
+    console.log(userData);
     return this.http.put<any>(`${this.apiUrl}/${userData.id}`, userData).pipe(
       catchError(error => {
         if (error.status === 400) {

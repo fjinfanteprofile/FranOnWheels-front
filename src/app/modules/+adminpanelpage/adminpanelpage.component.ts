@@ -219,7 +219,7 @@ export class AdminpanelpageComponent {
       dni: this.dni,
       phoneNumber: this.phoneNumber,
       address: this.address,
-      email: this.email,
+      email: this.newEmail,
       password: this.password,
       age: this.age,
       roleId: this.roleId,
