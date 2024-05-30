@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { LoginService } from './service/login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterService } from './service/register.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { errorMessages } from '../../shared/errormessages/errors';
 
 
@@ -31,8 +30,7 @@ export class LogregpageComponent {
     private loginService: LoginService,
     private registerService: RegisterService,
     private fb: FormBuilder,
-    private userService: UserService,
-    private snackBar: MatSnackBar,
+    private userService: UserService
 
   ) {
     this.loginForm = this.createLoginForm();
@@ -77,7 +75,6 @@ export class LogregpageComponent {
       user => {
         if (user) {
           this.userService.setUser(user);
-          this.snackBar.open('Login successful!', '', { duration: 2000 });
           this.router.navigate(['/']);
         } else {
           this.loginError = errorMessages.login.loginError;
@@ -106,7 +103,6 @@ export class LogregpageComponent {
       .subscribe(
         response => {
           this.showLoginForm = true;
-          this.snackBar.open('Registration successful! Now you can log in.', '', { duration: 2000 });
           this.registerError = null;
         },
         error => {
