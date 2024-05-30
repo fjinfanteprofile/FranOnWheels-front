@@ -1,9 +1,11 @@
-import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../shared/service/user.service';
 import { FormsModule } from '@angular/forms';
+import { TOAST_MSGS, TOAST_TYPES } from '../../shared/components/constants';
+import { ToastService } from '../../shared/service/toast.service';
 
 @Component({
   selector: 'app-profilepage',
@@ -15,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 export class ProfilepageComponent implements OnInit {
   user: any;
 
-  constructor(private userService: UserService, private router: Router, private snackbar: MatSnackBar) {}
+  constructor(private userService: UserService, private router: Router, private toastService : ToastService) {}
 
   ngOnInit(): void {
     this.user = this.userService.getUser();
@@ -43,7 +45,7 @@ export class ProfilepageComponent implements OnInit {
 
   logout(): void {
     this.userService.logout();
+    this.toastService.showToast(TOAST_MSGS.login, TOAST_TYPES.success);
     this.router.navigate(['/']);
-    this.snackbar.open('Logout successful', '', { duration: 2000 });
   }
 }
