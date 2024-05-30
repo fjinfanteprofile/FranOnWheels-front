@@ -22,3 +22,11 @@
 .user-info button {
   margin-top: 20px;
 }
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+

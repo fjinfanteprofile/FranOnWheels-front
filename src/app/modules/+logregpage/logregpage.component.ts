@@ -7,6 +7,8 @@ import { LoginService } from './service/login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterService } from './service/register.service';
 import { errorMessages } from '../../shared/errormessages/errors';
+import { TOAST_MSGS, TOAST_TYPES } from '../../shared/components/constants';
+import { ToastService } from '../../shared/service/toast.service';
 
 
 @Component({
@@ -30,7 +32,8 @@ export class LogregpageComponent {
     private loginService: LoginService,
     private registerService: RegisterService,
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private toastService : ToastService
 
   ) {
     this.loginForm = this.createLoginForm();
@@ -76,6 +79,7 @@ export class LogregpageComponent {
         if (user) {
           this.userService.setUser(user);
           this.router.navigate(['/']);
+          this.toastService.showToast(TOAST_MSGS.login, TOAST_TYPES.success);
         } else {
           this.loginError = errorMessages.login.loginError;
         }
@@ -104,6 +108,7 @@ export class LogregpageComponent {
         response => {
           this.showLoginForm = true;
           this.registerError = null;
+          this.toastService.showToast(TOAST_MSGS.register, TOAST_TYPES.success);
         },
         error => {
           this.registerError = errorMessages.register.registrationError;
