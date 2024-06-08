@@ -17,7 +17,6 @@ export class CookieBannerComponent implements OnInit {
 
   ngOnInit(): void { 
     const cookiesAccepted = this.cookieService.get('cookiesAccepted');
-    console.log(`Cookie accepted value: ${cookiesAccepted}`);
     if (cookiesAccepted === 'true') {
       this.isVisible = false;
     } else if (cookiesAccepted === 'false') {
