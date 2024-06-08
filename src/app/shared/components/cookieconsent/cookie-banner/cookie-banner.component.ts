@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './cookie-banner.component.html',
-  styleUrl: './cookie-banner.component.css'
+  styleUrls: ['./cookie-banner.component.css'],
 })
 export class CookieBannerComponent implements OnInit {
 
@@ -15,12 +15,15 @@ export class CookieBannerComponent implements OnInit {
 
   constructor(private cookieService: CookieService) { }
 
-  ngOnInit(): void {
-    // Check if the user has already accepted cookies
-    if (this.cookieService.get('cookiesAccepted') === 'true') {
+  ngOnInit(): void { 
+    const cookiesAccepted = this.cookieService.get('cookiesAccepted');
+    console.log(`Cookie accepted value: ${cookiesAccepted}`);
+    if (cookiesAccepted === 'true') {
       this.isVisible = false;
-    } else  if (this.cookieService.get('cookiesAccepted') === 'false') {
+    } else if (cookiesAccepted === 'false') {
       this.isVisible = true;
+    } else {
+      this.isVisible = true; 
     }
   }
 
