@@ -45,7 +45,7 @@ export class ProfilepageComponent implements OnInit {
 
   logout(): void {
     this.userService.logout();
-    this.toastService.showToast(TOAST_MSGS.login, TOAST_TYPES.success);
+    this.toastService.showToast(TOAST_MSGS.logout, TOAST_TYPES.danger);
     this.router.navigate(['/']);
   }
 }
