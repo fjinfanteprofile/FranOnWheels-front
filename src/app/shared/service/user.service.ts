@@ -58,6 +58,9 @@ export class UserService {
     this.userSubject.next(user); // Emit the updated user to subscribers
     this.saveUserToLocalStorage(user);
   }
+  getUserFromServer(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${this.user.id}`);
+  }
 
   getUser() {
     return this.user;

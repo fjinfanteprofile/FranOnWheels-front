@@ -33,12 +33,25 @@ export class ProfilepageComponent implements OnInit {
       email: this.user.email,
       id: this.user.id
     };
-    this.userService.updateUserProfile(userData).subscribe(
 
+    this.userService.updateUserProfile(userData).subscribe(
       (response: any) => {
+        this.toastService.showToast('Profile updated successfully', TOAST_TYPES.success);
+        
+        // Fetch the updated user profile from server
+        this.userService.getUserFromServer().subscribe(
+          (updatedUser: any) => {
+            this.userService.setUser(updatedUser); //latest data
+            this.user = updatedUser; 
+          },
+          (error: any) => {
+            console.error('Error fetching updated user data:', error);
+          }
+        );
       },
       (error: any) => {
         console.error('Error updating user:', error);
+        this.toastService.showToast('Error updating profile', TOAST_TYPES.danger);
       }
     );
   }
