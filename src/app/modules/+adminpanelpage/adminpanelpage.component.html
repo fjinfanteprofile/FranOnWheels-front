@@ -1,0 +1,359 @@
+<div class="container">
+  <div class="card" (click)="setActiveTab('users')">
+    <h2>Users</h2>
+  </div>
+  <div class="card" (click)="setActiveTab('vehicles')">
+    <h2>Vehicles</h2>
+  </div>
+  <div class="card" (click)="setActiveTab('classes')">
+    <h2>Classes</h2>
+  </div>
+</div>
+
+<div *ngIf="activeTab === 'users'">
+  <table>
+    <div class="cross" (click)="setActiveTab('')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg>
+    </div>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>DNI</th>
+        <th>Phone Number</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.dni }}</td>
+        <td>{{ user.phoneNumber }}</td>
+        <td>{{ user.address }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.role.name }}</td>
+      </tr>
+    </tbody>
+
+  </table>
+  <div class="button-container">
+    <button class="create-button" (click)="showUserCreateForm()">Create</button>
+    <button class="update-button" (click)="showUpdateUserForm()">Update</button>
+    <button class="delete-button" (click)="showDeleteUserForm()">Delete</button>
+  </div>
+
+  <div *ngIf="showUserFormCreate">
+    <div class="pop-up">
+      <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg></div>
+    <form (submit)="createUser()">
+      <label for="registerUsername">Username:</label>
+      <input type="text" id="registerUsername" name="registerUsername" required [(ngModel)]="username">
+      <label for="registerName">Name:</label>
+      <input type="text" id="registerName" name="registerName" required [(ngModel)]="name">
+      <label for="registerLastName">Last Name:</label>
+      <input type="text" id="registerLastName" name="registerLastName" required [(ngModel)]="lastName">
+      <label for="registerDni">DNI:</label>
+      <input type="text" id="registerDni" name="registerDni" [(ngModel)]="dni">
+      <label for="registerPhoneNumber">Phone Number:</label>
+      <input type="tel" id="registerPhoneNumber" name="registerPhoneNumber" [(ngModel)]="phoneNumber">
+      <label for="registerAddress">Address:</label>
+      <input type="text" id="registerAddress" name="registerAddress" [(ngModel)]="address">
+      <label for="registerEmail">Email:</label>
+      <input type="email" id="registerEmail" name="registerEmail" required [(ngModel)]="email">
+      <label for="registerAge">Age:</label>
+      <input type="text" id="registerAge" name="registerAge" required="" [(ngModel)]="age">
+      <label for="registerPassword">Password:</label>
+      <input type="password" id="registerPassword" name="registerPassword" required [(ngModel)]="password">
+      <label for="registerRole">Role:</label>
+      <select id="registerRole" name="registerRole" [(ngModel)]="roleId">
+        <option *ngFor="let role of roles" [ngValue]="role.id">{{ role.name }}</option>
+      </select>
+      <label for="active">Active:</label>
+      <input type="checkbox" id="active" name="active" [(ngModel)]="active" (change)="active = active ? 1 : 0">
+
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  </div>
+
+  <div *ngIf="showUserFormUpdate">
+    <div class="pop-up">
+      <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg></div>
+      <form (submit)="updateUser()">
+        <label for="updateId">Email of user to update:</label>
+        <select id="updateId" name="updateId" [(ngModel)]="selectedUserId">
+          <option *ngFor="let user of users" [ngValue]="user.id">{{ user.email }}</option>
+        </select>
+        <label for="newEmail">New Email:</label>
+        <input type="email" id="newEmail" name="newEmail" required [(ngModel)]="newEmail">
+        <label for="registerUsername">Username:</label>
+        <input type="text" id="registerUsername" name="registerUsername" required [(ngModel)]="username">
+        <label for="registerName">Name:</label>
+        <input type="text" id="registerName" name="registerName" required [(ngModel)]="name">
+        <label for="registerLastName">Last Name:</label>
+        <input type="text" id="registerLastName" name="registerLastName" required [(ngModel)]="lastName">
+        <label for="registerDni">DNI:</label>
+        <input type="text" id="registerDni" name="registerDni" [(ngModel)]="dni">
+        <label for="registerPhoneNumber">Phone Number:</label>
+        <input type="tel" id="registerPhoneNumber" name="registerPhoneNumber" [(ngModel)]="phoneNumber">
+        <label for="registerAddress">Address:</label>
+        <input type="text" id="registerAddress" name="registerAddress" [(ngModel)]="address">
+        <label for="registerAge">Age:</label>
+        <input type="text" id="registerAge" name="registerAge" required="" [(ngModel)]="age">
+        <label for="registerPassword">Password:</label>
+        <input type="password" id="registerPassword" name="registerPassword" required [(ngModel)]="password">
+        <label for="registerRole">Role:</label>
+        <select id="registerRole" name="registerRole" [(ngModel)]="roleId">
+          <option *ngFor="let role of roles" [ngValue]="role.id">{{ role.name }}</option>
+        </select>
+        <label for="active">Active:</label>
+        <input type="checkbox" id="active" name="active" [(ngModel)]="active" (change)="active = active ? 1 : 0">
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="showUserFormDelete">
+    <div class="pop-up">
+      <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg></div>
+      <form (submit)="deleteUser()">
+      <label for="deleteUser">Select User to Delete:</label>
+      <select id="deleteid" name="deleteid" [(ngModel)]="selectedUserId">
+        <option *ngFor="let user of users" [ngValue]="user.id">{{ user.email }}</option>
+      </select>
+      <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="activeTab === 'vehicles'">
+  <table>
+    <div class="cross" (click)="setActiveTab('')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg>
+    </div>
+    <thead>
+      <tr>
+        <th>Vehicle ID</th>
+        <th>Vehicle Type</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>License Plate</th>
+        <th>Gearbox</th>
+        <th>Displacement CC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehicles">
+        <td>{{ vehicle.id }}</td>
+        <td>{{ vehicle.type.name }}</td>
+        <td>{{ vehicle.model }}</td>
+        <td>{{ vehicle.year }}</td>
+        <td>{{ vehicle.licensePlate }}</td>
+        <td>{{ vehicle.gearbox }}</td>
+        <td>{{ vehicle.displacementCc }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="button-container">
+    <button class="create-button" (click)="showCreateVehicleForm()">Create</button>
+    <button class="update-button" (click)="showUpdateVehicleForm()">Update</button>
+    <button class="delete-button" (click)="showDeleteVehicleForm()">Delete</button>
+  </div>
+
+  <div *ngIf="showVehicleFormCreate">
+    <div class="pop-up">
+      <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg></div>
+      <form (submit)="createVehicle()">
+        <label for="vehicleType">Vehicle Type:</label>
+        <input type="text" id="vehicleType" name="vehicleType" required [(ngModel)]="newVehicleTypeId">
+        <label for="vehicleModel">Model:</label>
+        <input type="text" id="vehicleModel" name="vehicleModel" required [(ngModel)]="newVehicleModel">
+        <label for="vehicleYear">Year:</label>
+        <input type="number" id="vehicleYear" name="vehicleYear" required [(ngModel)]="newVehicleYear">
+        <label for="licensePlate">License Plate:</label>
+        <input type="text" id="licensePlate" name="licensePlate" required [(ngModel)]="newLicensePlate">
+        <label for="gearbox">Gearbox:</label>
+        <input type="text" id="gearbox" name="gearbox" required [(ngModel)]="newGearbox">
+        <label for="displacementCc">Displacement CC:</label>
+        <input type="number" id="displacementCc" name="displacementCc" required [(ngModel)]="newDisplacementCc">
+        <button type="submit">Submit</button>
+      </form>
+        </div>
+      </div>
+
+        <div *ngIf="showVehicleFormUpdate">
+      <div class="pop-up">
+        <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+        </svg></div>
+        <form (submit)="updateVehicle()">
+          <label for="updateVehicleId">Select Vehicle to Update:</label>
+          <select id="updateVehicleId" name="updateVehicleId" [(ngModel)]="selectedVehicleId">
+            <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle.id">{{ vehicle.id }}</option>
+          </select>
+          <label for="newVehicleType">New Vehicle Type:</label>
+          <input type="text" id="newVehicleType" name="newVehicleType" required [(ngModel)]="updatedVehicleTypeId">
+          <label for="newVehicleModel">New Model:</label>
+          <input type="text" id="newVehicleModel" name="newVehicleModel" required [(ngModel)]="updatedVehicleModel">
+          <label for="newVehicleYear">New Year:</label>
+          <input type="number" id="newVehicleYear" name="newVehicleYear" required [(ngModel)]="updatedVehicleYear">
+          <label for="newLicensePlate">New License Plate:</label>
+          <input type="text" id="newLicensePlate" name="newLicensePlate" required [(ngModel)]="updatedLicensePlate">
+          <label for="newGearbox">New Gearbox:</label>
+          <input type="text" id="newGearbox" name="newGearbox" required [(ngModel)]="updatedGearbox">
+          <label for="newDisplacementCc">New Displacement CC:</label>
+          <input type="number" id="newDisplacementCc" name="newDisplacementCc" required [(ngModel)]="updatedDisplacementCc">
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+  <div *ngIf="showVehicleFormDelete">
+    <div class="pop-up">
+      <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg></div>
+      <form (submit)="deleteVehicle()">
+        <label for="deleteVehicleId">Select Vehicle to Delete:</label>
+        <select id="deleteVehicleId" name="deleteVehicleId" [(ngModel)]="selectedVehicleId">
+          <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle.id">{{ vehicle.id }}</option>
+        </select>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="activeTab === 'classes'">
+  <table>
+    <div class="cross" (click)="setActiveTab('')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg>
+    </div>
+    <thead>
+      <tr>
+        <th>Class ID</th>
+        <th>Vehicle Model</th>
+        <th>Date</th>
+        <th>Time Start</th>
+        <th>Time End</th>
+        <th>User ID</th>
+        <th>User Name</th>
+        <th>Day of Week</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let class of classes">
+        <td>{{ class.id }}</td>
+        <td>{{ getVehicleModel(class.vehicleId) }}</td>
+        <td>{{ class.date }}</td>
+        <td>{{ class.timeStart }}</td>
+        <td>{{ class.timeEnd }}</td>
+        <td>{{ class.userId }}</td>
+        <td>{{ getUserUsername(class.userId) }}</td>
+        <td>{{ class.dayOfWeek }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="button-container">
+    <button class="create-button" (click)="showCreateClassForm()">Create</button>
+    <button class="update-button" (click)="showUpdateClassForm()">Update</button>
+    <button class="delete-button" (click)="showDeleteClassForm()">Delete</button>
+  </div>
+
+  <div *ngIf="showClassFormCreate">
+    <div class="pop-up">
+      <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg></div>
+      <form (submit)="createClass()">
+        <label for="createVehicleId">Select Vehicle to link to class:</label>
+        <select id="createVehicleId" name="createVehicleId" [(ngModel)]="selectedVehicleId">
+          <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle.id">{{ vehicle.model }}</option>
+        </select>
+        <label for="newClassDate">Date:</label>
+        <input type="date" id="newClassDate" name="newClassDate" required [(ngModel)]="newClassDate">
+        <label for="newClassTimeStart">Time Start:</label>
+        <input type="time" id="newClassTimeStart" name="newClassTimeStart" required [(ngModel)]="newClassTimeStart">
+        <label for="newClassTimeEnd">Time End:</label>
+        <input type="time" id="newClassTimeEnd" name="newClassTimeEnd" required [(ngModel)]="newClassTimeEnd">
+        <label for="newClassUserId">User ID:</label>
+        <select id="newClassUserId" name="newClassUserId" required [(ngModel)]="newClassUserId">
+          <option *ngFor="let user of users" [ngValue]="user.id">{{ user.email }}</option>
+        </select>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="showClassFormUpdate">
+    <div class="pop-up">
+      <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg></div>
+      <form (submit)="updateClass()">
+        <label for="updateClassId">Select Class to Update:</label>
+        <select id="updateClassId" name="updateClassId" [(ngModel)]="updatedClassId">
+          <option *ngFor="let class of classes" [ngValue]="class.id">{{ class.id }}</option>
+        </select>
+        <label for="updatedClassVehicleId">New Vehicle ID:</label>
+        <select id="updatedClassVehicleId" name="updatedClassVehicleId" [(ngModel)]="updatedVehicleId">
+          <option *ngFor="let vehicle of vehicles" [ngValue]="vehicle.id">{{ vehicle.model }}</option>
+        </select>
+        <label for="updatedClassDate">New Date:</label>
+        <input type="date" id="updatedClassDate" name="updatedClassDate" required [(ngModel)]="updatedDate">
+        <label for="updatedClassTimeStart">New Time Start:</label>
+        <input type="time" id="updatedClassTimeStart" name="updatedClassTimeStart" required [(ngModel)]="updatedtimeStart">
+        <label for="updatedClassTimeEnd">New Time End:</label>
+        <input type="time" id="updatedClassTimeEnd" name="updatedClassTimeEnd" required [(ngModel)]="updatedtimeEnd">
+        <label for="updatedClassUserId">New User ID:</label>
+        <select id="updatedClassUserId" name="updatedClassUserId" [(ngModel)]="updateduserId">
+          <option *ngFor="let user of users" [ngValue]="user.id">{{ user.email }}</option>
+        </select>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="showClassFormDelete">
+    <div class="pop-up">
+      <div class="close-button" (click)="closeForm()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 10.586l5.293-5.293a1 1 0 1 1 1.414 1.414L13.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414L12 13.414l-5.293 5.293a1 1 0 1 1-1.414-1.414L10.586 12 5.293 6.707a1 1 0 0 1 1.414-1.414L12 10.586z" />
+      </svg></div>
+      <form (submit)="deleteClass()">
+        <label for="deleteClassId">Select Class to Delete:</label>
+        <select id="deleteClassId" name="deleteClassId" [(ngModel)]="selectedClassId">
+          <option *ngFor="let class of classes" [ngValue]="class.id">{{ class.id }}</option>
+        </select>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+</div>

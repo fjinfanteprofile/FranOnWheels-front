@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="testimonials-item" *ngFor="let testimonial of testimonials.slice(0, 2)">
+        <img [src]="testimonial.img" [alt]="testimonial.name" class="img-fluid rounded-circle">
+        <p>{{ testimonial.text }}</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="testimonials-item" *ngFor="let testimonial of testimonials.slice(2, 4)">
+        <img [src]="testimonial.img" [alt]="testimonial.name" class="img-fluid rounded-circle">
+        <p>{{ testimonial.text }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="form-container">
+        <h2>Book Class</h2>
+        <div *ngIf="!user">
+          <p>To book a class, first log in.</p>
+          <a routerLink="/logreg" class="btn btn-primary btn-lg btn-block">Log in/Register</a>
+        </div>
+        <form *ngIf="user" (submit)="onSubmit($event)">
+          <div class="form-group">
+            <label for="license">Select License:</label>
+            <select id="license" name="license" class="form-control" (change)="onLicenseSelect($event)" required>
+              <option value="">Select a vehicle type</option>
+              <option *ngFor="let vehicleType of vehicleTypes" [value]="vehicleType.name">{{ vehicleType.name }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="vehicle">Select Vehicle:</label>
+            <select id="vehicle" name="vehicle" class="form-control" (change)="onVehicleSelect($event)" required>
+              <option value="">Select a vehicle</option>
+              <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">{{ vehicle.model }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="selectedDate">Select Date:</label>
+            <input type="date" id="selectedDate" name="selectedDate" class="form-control" (change)="onDateSelect($event)" required>
+          </div>
+          <div class="form-group">
+            <label for="timeSlot">Select Time Slot:</label>
+            <select id="timeSlot" name="timeSlot" class="form-control" (change)="onTimeSlotSelect($event)" required>
+              <option value="">Select a time slot</option>
+              <option *ngFor="let timeSlot of timeSlots" [value]="timeSlot">{{ timeSlot }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="bookings-container" *ngIf="classes.length > 0">
+        <h2>Your Booked Classes</h2>
+        <ul class="list-unstyled">
+          <li *ngFor="let bookedClass of classes">
+            <div class="class-info border rounded p-3 mb-3">
+              <p>Date: {{ bookedClass.date }}</p>
+              <p>Time: {{ bookedClass.timeStart }} - {{ bookedClass.timeEnd }}</p>
+              <p>Day of Week: {{ bookedClass.dayOfWeek }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

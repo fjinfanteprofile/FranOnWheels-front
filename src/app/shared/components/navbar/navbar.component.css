@@ -1,0 +1,27 @@
+.navbar {
+  border-bottom: 2px solid #62a7f2;
+}
+
+.navbar-brand .logo {
+  width: 70px;
+  height: auto;
+  margin-left: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: larger;
+  color: black;
+  text-align: center;
+}
+
+.navbar-nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+.nav-item:first-child {
+  margin-left: 0;
+}

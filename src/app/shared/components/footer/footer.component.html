@@ -1,0 +1,9 @@
+<footer class="contact-footer bg-dark text-white py-3">
+  <div class="container">
+    <div class="row justify-content-center contact-links">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let link of contactLinks">
+        <a [href]="link.url" target="_blank" class="d-block text-white text-center my-2">{{ link.text }}</a>
+      </div>
+    </div>
+  </div>
+</footer>

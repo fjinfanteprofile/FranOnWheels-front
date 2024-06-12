@@ -1,0 +1,57 @@
+.form-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container label {
+  margin-bottom: 8px;
+}
+
+.form-container select,
+.form-container button {
+  margin-bottom: 16px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-container button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+.bookings-container {
+  margin-top: 20px;
+}
+
+.bookings-container h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.bookings-container .class-info {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.bookings-container .class-info:last-child {
+  margin-bottom: 0;
+}

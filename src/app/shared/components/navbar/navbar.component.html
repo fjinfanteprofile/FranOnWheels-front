@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg" style="background-color: #7ab4f1;">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <img [src]="myUrl" alt="Logo" class="logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav nav-links">
+        <li class="nav-item" *ngIf="!user">
+          <a class="nav-link" routerLink="/logreg">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="user">
+          <a class="nav-link" routerLink="/profile">{{ user.username }}</a>
+        </li>
+        <li class="nav-item" *ngIf="user">
+          <a class="nav-link" routerLink="/bookings">Bookings</a>
+        </li>
+        <li class="nav-item" *ngIf="user && user.role && user.role.id === 2">
+          <a class="nav-link" routerLink="/admin">Admin Panel</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

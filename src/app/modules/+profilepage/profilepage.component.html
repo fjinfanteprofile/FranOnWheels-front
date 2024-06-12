@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div *ngIf="!user">
+        <p class="text-center">To see your profile, first log in.</p>
+        <a routerLink="/logreg" class="btn btn-primary btn-lg btn-block">Log in/Register</a>
+      </div>
+      <div *ngIf="user">
+        <h2 class="text-center">Welcome to Your Profile</h2>
+        <form (ngSubmit)="updateProfile()" [formGroup]="profileForm">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" formControlName="name" [(ngModel)]="user.name">
+            <div *ngIf="profileForm.get('name')?.invalid && (profileForm.get('name')?.dirty || profileForm.get('name')?.touched)" class="text-danger">
+              <div *ngIf="profileForm.get('name')?.errors?.['required']">Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName" [(ngModel)]="user.lastName">
+            <div *ngIf="profileForm.get('lastName')?.invalid && (profileForm.get('lastName')?.dirty || profileForm.get('lastName')?.touched)" class="text-danger">
+              <div *ngIf="profileForm.get('lastName')?.errors?.['required']">Last Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="dni">DNI:</label>
+            <input type="text" class="form-control" id="dni" formControlName="dni" [(ngModel)]="user.dni">
+            <div *ngIf="profileForm.get('dni')?.invalid && (profileForm.get('dni')?.dirty || profileForm.get('dni')?.touched)" class="text-danger">
+              <div *ngIf="profileForm.get('dni')?.errors?.['required']">DNI is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" [(ngModel)]="user.phoneNumber">
+            <div *ngIf="profileForm.get('phoneNumber')?.invalid && (profileForm.get('phoneNumber')?.dirty || profileForm.get('phoneNumber')?.touched)" class="text-danger">
+              <div *ngIf="profileForm.get('phoneNumber')?.errors?.['required']">Phone Number is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address">Address:</label>
+            <input type="text" class="form-control" id="address" formControlName="address" [(ngModel)]="user.address">
+            <div *ngIf="profileForm.get('address')?.invalid && (profileForm.get('address')?.dirty || profileForm.get('address')?.touched)" class="text-danger">
+              <div *ngIf="profileForm.get('address')?.errors?.['required']">Address is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" formControlName="email" [(ngModel)]="user.email">
+            <div *ngIf="profileForm.get('email')?.invalid && (profileForm.get('email')?.dirty || profileForm.get('email')?.touched)" class="text-danger">
+              <div *ngIf="profileForm.get('email')?.errors?.['required']">Email is required</div>
+              <div *ngIf="profileForm.get('email')?.errors?.['email']">Invalid email format</div>
+            </div>
+          </div>
+          <div class="button-container">
+            <button type="submit" class="btn btn-primary" [disabled]="profileForm.invalid">Update Profile</button>
+            <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
