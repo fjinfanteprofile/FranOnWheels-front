@@ -189,9 +189,17 @@ export class AdminpanelpageComponent {
     };
 
     this.userService.createUser(
-      this.username, this.name, this.password, this.email,
-      this.dni, this.phoneNumber, this.address, this.lastName,
-      this.age, this.roleId, this.active
+      this.username,
+      this.name,
+      this.lastName,
+      this.dni,
+      this.phoneNumber,
+      this.address,
+      this.email,
+      this.password,
+      this.age,
+      this.roleId,
+      this.active
     ).subscribe(
       (response: any) => {
         this.showUserFormCreate = false;
